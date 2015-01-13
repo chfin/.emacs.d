@@ -1,0 +1,7 @@
+# contributor: chfin <chfin@freenet.de>
+# name: top-level comment (lisp)
+# key: tlc
+# --
+;;;;;${1:$(make-string (string-width yas-text) ?\;)};;;;;
+;;;; ${1:comment} ;;;;
+;;;;;${1:$(make-string (string-width yas-text) ?\;)};;;;;

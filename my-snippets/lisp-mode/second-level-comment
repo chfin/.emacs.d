@@ -1,0 +1,6 @@
+# contributor: chfin <chfin@freenet.de>
+# name: second-level comment (lisp)
+# key: slc
+# --
+;;; ${1:comment}
+;;;;${1:$(make-string (string-width yas-text) ?\;)}

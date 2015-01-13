@@ -1,0 +1,7 @@
+# contributor: chfin <chfin@freenet.de>
+# name: defun (common lisp)
+# key: defun
+# --
+
+(defun ${1:name} (${2:args})
+  $0)

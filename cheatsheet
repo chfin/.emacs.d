@@ -1,0 +1,28 @@
+C-f     forward-char    M-f     forward-word
+C-b     backward-char   M-b     backward-word
+C-n     next-line
+C-p     previous-line
+C-a     move-beginning-of-line
+C-e     move-end-of-line
+
+C-l     recenter-top-bottom
+
+C-v     scroll-up-command   (moves cursor down)
+M-v     scroll-down-command (moves cursor up)
+C-M-v   scroll-other-window
+C-M-S-v scroll-other-window-down (well, up)
+M->     end-of-buffer            (also C-END)
+M-<     beginning-of-buffer      (also C-POS1)
+
+C-d     delete-char (DEL)
+M-d     delete-word (C-DEL)
+
+C-x 4 C-f           find-file-other-window
+C-x 5 C-f           find-file-other-frame
+C-x s   save-some-buffers
+
+C-h a   apropos-command
+C-h c   describe-key-briefly
+C-h k   describe-key
+C-h f   describe-function
+C-h m   describe-mode
