@@ -1,52 +1,3 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; general settings ;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq-default indent-tabs-mode nil)
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(ido-mode t)
-
-;;; variables
-;;;;;;;;;;;;;
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(TeX-PDF-mode t)
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
- '(background-color "#fdf6e3")
- '(background-mode light)
- '(column-number-mode t)
- '(cursor-color "#657b83")
- '(custom-enabled-themes (quote (wombat)))
- '(custom-safe-themes
-   (quote
-    ("e56f1b1c1daec5dbddc50abd00fcd00f6ce4079f4a7f66052cf16d96412a09a9" "756597b162f1be60a12dbd52bab71d40d6a2845a3e3c2584c6573ee9c332a66e" "c5a044ba03d43a725bd79700087dea813abcb6beb6be08c7eb3303ed90782482" "6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" "31a01668c84d03862a970c471edbd377b2430868eccf5e8a9aec6831f1a0908d" "1297a022df4228b81bc0436230f211bad168a117282c20ddcba2db8c6a200743" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
- '(foreground-color "#657b83")
- '(fringe-mode nil nil (fringe))
- '(geiser-mode-auto-p nil)
- '(geiser-mode-autodoc-p nil)
- '(haskell-mode-hook (quote (turn-on-haskell-indentation)))
- '(indicate-empty-lines t)
- '(inhibit-startup-screen t)
- '(safe-local-variable-values (quote ((eval visual-line-mode t))))
- '(scroll-bar-mode nil)
- '(show-paren-mode t)
- '(tool-bar-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 97 :width normal)))))
-(put 'scroll-left 'disabled nil)
-
 ;;;;;;;;;;;;;;;;;;
 ;;;; packages ;;;;
 ;;;;;;;;;;;;;;;;;;
@@ -67,9 +18,92 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; find with (remove-duplicates package-activated-list)
+;; M-x eval-print-last-sexp
 
 (setq my-packages
-      '(ac-geiser ac-slime auctex auto-complete-auctex auto-complete chicken-scheme color-theme-solarized color-theme elpy company find-file-in-project geiser gnuplot graphviz-dot-mode haskell-mode highlight-indentation idomenu js2-mode markdown-mode marmalade-demo nodejs-repl org paredit popup prolog pyvenv slime smart-mode-line rich-minority dash yaml-mode yasnippet))
+      '(ac-geiser ac-slime auctex auto-complete-auctex auto-complete chicken-scheme elpy company find-file-in-project geiser gnuplot graphviz-dot-mode haskell-mode highlight-indentation idomenu js2-mode markdown-mode marmalade-demo monokai-theme no-easy-keys nodejs-repl org paredit popup prolog pyvenv slime smart-mode-line rich-minority solarized-theme dash yaml-mode yasnippet zenburn-theme))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; general settings ;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq-default indent-tabs-mode nil)
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode t)
+
+;;(load-theme 'monokai t)
+
+;;; variables
+;;;;;;;;;;;;;
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(Linum-format "%7i ")
+ '(TeX-PDF-mode t)
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
+ '(ansi-term-color-vector
+   [unspecified "#110F13" "#b13120" "#719f34" "#ceae3e" "#7c9fc9" "#7868b5" "#009090" "#F4EAD5"])
+ '(background-color "#fdf6e3")
+ '(background-mode light)
+ '(column-number-mode t)
+ '(cua-global-mark-cursor-color "#2aa198")
+ '(cua-normal-cursor-color "#657b83")
+ '(cua-overwrite-cursor-color "#b58900")
+ '(cua-read-only-cursor-color "#859900")
+ '(cursor-color "#657b83")
+ '(custom-enabled-themes (quote (smart-mode-line-respectful monokai)))
+ '(custom-safe-themes
+   (quote
+    ("4e262566c3d57706c70e403d440146a5440de056dfaeb3062f004da1711d83fc" "c5a044ba03d43a725bd79700087dea813abcb6beb6be08c7eb3303ed90782482" default)))
+ '(fci-rule-character-color "#202020")
+ '(foreground-color "#657b83")
+ '(fringe-mode nil nil (fringe))
+ '(geiser-mode-auto-p nil)
+ '(geiser-mode-autodoc-p nil)
+ '(haskell-mode-hook (quote (turn-on-haskell-indentation)))
+ '(highlight-symbol-colors
+   (--map
+    (solarized-color-blend it "#fdf6e3" 0.25)
+    (quote
+     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
+ '(highlight-symbol-foreground-color "#586e75")
+ '(hl-bg-colors
+   (quote
+    ("#DEB542" "#F2804F" "#FF6E64" "#F771AC" "#9EA0E5" "#69B7F0" "#69CABF" "#B4C342")))
+ '(hl-fg-colors
+   (quote
+    ("#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3")))
+ '(indicate-empty-lines t)
+ '(inhibit-startup-screen t)
+ '(linum-format " %7i ")
+ '(main-line-color1 "#1e1e1e")
+ '(main-line-color2 "#111111")
+ '(main-line-separator-style (quote chamfer))
+ '(powerline-color1 "#1e1e1e")
+ '(powerline-color2 "#111111")
+ '(safe-local-variable-values (quote ((eval visual-line-mode t))))
+ '(scroll-bar-mode nil)
+ '(show-paren-mode t)
+ '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
+ '(term-default-bg-color "#fdf6e3")
+ '(term-default-fg-color "#657b83")
+ '(tool-bar-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 97 :width normal)))))
+(put 'scroll-left 'disabled nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; customization ;;;;

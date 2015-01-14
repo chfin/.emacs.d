@@ -2,8 +2,12 @@ C-f     forward-char    M-f     forward-word
 C-b     backward-char   M-b     backward-word
 C-n     next-line
 C-p     previous-line
+
 C-a     move-beginning-of-line
 C-e     move-end-of-line
+M-m     back-to-indentation
+M-{     backward-paragraph (C-<up>)
+M-}     forward-paragraph (C-<down>)
 
 C-l     recenter-top-bottom
 
