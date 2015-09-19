@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: metro
+# key: metro
+# --
+(define *metro* (make-metro ${1:120}))
