@@ -30,3 +30,9 @@ C-h c   describe-key-briefly
 C-h k   describe-key
 C-h f   describe-function
 C-h m   describe-mode
+
+C-;     ace-jump-mode
+
+C-c p   projectile prefix
+C-c p f open file from project
+C-c p D browse project dir

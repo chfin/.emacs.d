@@ -28,21 +28,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq-default indent-tabs-mode nil)
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(ido-mode t)
-(ido-vertical-mode 1)
 
 ;;(load-theme 'monokai t)
-
-;;; smex
-;;;;;;;;
-
-(smex-initialize)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;; This is your old M-x.
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 ;;; variables
 ;;;;;;;;;;;;;
@@ -72,7 +59,7 @@
  '(custom-enabled-themes (quote (monokai)))
  '(custom-safe-themes
    (quote
-    ("19352d62ea0395879be564fc36bc0b4780d9768a964d26dfae8aad218062858d" "05c3bc4eb1219953a4f182e10de1f7466d28987f48d647c01f1f0037ff35ab9a" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "cbef37d6304f12fb789f5d80c2b75ea01465e41073c30341dc84c6c0d1eb611d" "9dae95cdbed1505d45322ef8b5aa90ccb6cb59e0ff26fef0b8f411dfc416c552" "4e262566c3d57706c70e403d440146a5440de056dfaeb3062f004da1711d83fc" "c5a044ba03d43a725bd79700087dea813abcb6beb6be08c7eb3303ed90782482" default)))
+    ("a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8fed5e4b89cf69107d524c4b91b4a4c35bcf1b3563d5f306608f0c48f580fdf8" "617219c11282b84761477059b9339da78ce392c974d9308535ee4ec8c0770bee" "19352d62ea0395879be564fc36bc0b4780d9768a964d26dfae8aad218062858d" "05c3bc4eb1219953a4f182e10de1f7466d28987f48d647c01f1f0037ff35ab9a" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "cbef37d6304f12fb789f5d80c2b75ea01465e41073c30341dc84c6c0d1eb611d" "9dae95cdbed1505d45322ef8b5aa90ccb6cb59e0ff26fef0b8f411dfc416c552" "4e262566c3d57706c70e403d440146a5440de056dfaeb3062f004da1711d83fc" "c5a044ba03d43a725bd79700087dea813abcb6beb6be08c7eb3303ed90782482" default)))
  '(fci-rule-character-color "#202020")
  '(fci-rule-color "#383838")
  '(foreground-color "#657b83")
@@ -80,28 +67,6 @@
  '(geiser-mode-auto-p nil)
  '(geiser-mode-autodoc-p nil)
  '(haskell-mode-hook (quote (turn-on-haskell-indentation)))
- ;; '(highlight-changes-colors ("#FD5FF0" "#AE81FF"))
- ;; '(highlight-symbol-colors
- ;;   (--map
- ;;    (solarized-color-blend it "#fdf6e3" 0.25)
- ;;    (quote
- ;;     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
- ;; '(highlight-symbol-foreground-color "#586e75")
- ;; '(highlight-tail-colors
- ;;   (("#49483E" . 0)
- ;;    ("#67930F" . 20)
- ;;    ("#349B8D" . 30)
- ;;    ("#21889B" . 50)
- ;;    ("#968B26" . 60)
- ;;    ("#A45E0A" . 70)
- ;;    ("#A41F99" . 85)
- ;;    ("#49483E" . 100)))
- ;; '(hl-bg-colors
- ;;   (quote
- ;;    ("#DEB542" "#F2804F" "#FF6E64" "#F771AC" "#9EA0E5" "#69B7F0" "#69CABF" "#B4C342")))
- ;; '(hl-fg-colors
- ;;   (quote
- ;;    ("#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3")))
  '(indicate-empty-lines t)
  '(inhibit-startup-screen t)
  '(linum-format " %7i ")
@@ -147,7 +112,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 97 :width normal)))))
+ '(default ((t (:family "Hack" :foundry "unknown" :slant normal :weight normal :height 98 :width normal)))))
 (put 'scroll-left 'disabled nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -178,7 +143,31 @@
 (global-undo-tree-mode)
 
 ;;; ace-jump
-(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+(define-key global-map (kbd "C-;") 'ace-jump-mode)
+
+;;; projectile
+(projectile-global-mode)
+(add-to-list 'projectile-globally-ignored-file-suffixes "~")
+(add-to-list 'projectile-globally-ignored-file-suffixes "#")
+
+;;; ido
+;;;;;;;
+
+(ido-mode t)
+(setq ido-everywhere t)
+(flx-ido-mode 1)
+(setq ido-enable-flex-matching t)
+(setq ido-use-faces nil)
+(ido-vertical-mode 1)
+
+;;; smex
+;;;;;;;;
+
+(smex-initialize)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; This is your old M-x.
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 ;;; yasnippet
 ;;;;;;;;;;;;;
