@@ -30,9 +30,6 @@
 ;;;; general settings ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;use tabs
-(setq-default indent-tabs-mode nil)
-
 ;; put backups in a meaningful place
 (setq
    backup-by-copying-when-linked t  ; don't clobber symlinks
@@ -174,23 +171,33 @@
   (setq sml/theme 'respectful)
   (sml/setup))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; general editing tools ;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; general editing settings and tools ;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;use tabs
+(setq-default indent-tabs-mode nil)
 
 ;;; delete-selection-mode
 (delete-selection-mode 1)
 
 ;;; undo-tree
-(global-undo-tree-mode)
+(use-package undo-tree :ensure t
+  :diminish undo-tree-mode
+  :init (global-undo-tree-mode))
 
 ;;; ace-jump
-(define-key global-map (kbd "C-;") 'ace-jump-mode)
+(use-package ace-jump-mode :ensure t
+  :bind (("C-;" . ace-jump-mode)))
 
 ;;; projectile
-(projectile-global-mode)
-(add-to-list 'projectile-globally-ignored-file-suffixes "~")
-(add-to-list 'projectile-globally-ignored-file-suffixes "#")
+(use-package projectile :ensure t
+  :init
+  (projectile-global-mode)
+  :config
+  (add-to-list 'projectile-globally-ignored-file-suffixes "~")
+  (add-to-list 'projectile-globally-ignored-file-suffixes "#")
+  (setq projectile-mode-line '(:eval (format " Proj[%s]" (projectile-project-name)))))
 
 ;;; ido
 ;;;;;;;
@@ -246,11 +253,9 @@
   :demand
   :bind (:map ivy-mode-map
          ("M-x" . counsel-M-x)
-         ;;("C-x C-f" . counsel-find-file)
          ("<f1> u" . counsel-unicode-char))
   :config
-  (setq counsel-find-file-ignore-regexp "\\(?:\\`[#.]\\)\\|\\(?:[#~]\\'\\)\\|\\(\\`\\.\\)")
-  )
+  (setq counsel-find-file-ignore-regexp "\\(?:\\`[#.]\\)\\|\\(?:[#~]\\'\\)\\|\\(\\`\\.\\)"))
 
 (ivy-mode 1)
 
@@ -288,62 +293,66 @@
 ;;; paredit
 ;;;;;;;;;;;
 
-(autoload 'my-enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+(use-package paredit :ensure t
+  :defer t
+  :diminish "()"
+  :init
+  (autoload 'my-enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+  
+  (defvar electrify-return-match
+    "[\]}\)]"
+    "If this regexp matches the text after the cursor, do an \"electric\" return.")
 
-(defvar electrify-return-match
-  "[\]}\)]"
-  "If this regexp matches the text after the cursor, do an \"electric\" return.")
-
-(defun electrify-return-if-match (arg)
-  "If the text after the cursor matches `electrify-return-match' then
+  (defun electrify-return-if-match (arg)
+    "If the text after the cursor matches `electrify-return-match' then
   open and indent an empty line between the cursor and the text.  Move the
   cursor to the new line."
-  (interactive "P")
-  (let ((case-fold-search nil))
-    (if (looking-at electrify-return-match)
-	(save-excursion (newline-and-indent)))
-    (newline arg)
-    (indent-according-to-mode)))
+    (interactive "P")
+    (let ((case-fold-search nil))
+      (if (looking-at electrify-return-match)
+          (save-excursion (newline-and-indent)))
+      (newline arg)
+      (indent-according-to-mode)))
 
-(defun my-enable-paredit-mode ()
-  (paredit-mode t)
-  ;;(local-set-key (kbd "<M-right>") 'paredit-forward-slurp-sexp)
-  ;;(local-set-key (kbd "<M-left>") 'paredit-forward-barf-sexp)
-  ;;(local-set-key (kbd "<C-right>") 'right-word)
-  ;;(local-set-key (kbd "<C-left>") 'left-word)
-  ;;(local-set-key (kbd "RET") 'electrify-return-if-match)
-  (setq paredit-commands
-	(remove-duplicates
-	 (append 
-	  '((("C-)" "M-<right>")
-	     paredit-forward-slurp-sexp
-	     ("(foo (bar |baz) quux zot)"
-	      "(foo (bar |baz quux) zot)")
-	     ("(a b ((c| d)) e f)"
-	      "(a b ((c| d) e) f)"))
-	    (("C-}" "M-<left>")
-	     paredit-forward-barf-sexp
-	     ("(foo (bar |baz quux) zot)"
-	      "(foo (bar |baz) quux zot)"))
-	    (("C-<right>")
-	     right-word)
-	    (("C-<left>")
-	     left-word)
-	    (("RET")
-	     electrify-return-if-match ())))
-	 :test 'equal))
-  (paredit-define-keys)
-  (paredit-annotate-mode-with-examples)
-  (paredit-annotate-functions-with-examples)
-  (show-paren-mode t))
+  (defun my-enable-paredit-mode ()
+    (paredit-mode t)
+    ;;(local-set-key (kbd "<M-right>") 'paredit-forward-slurp-sexp)
+    ;;(local-set-key (kbd "<M-left>") 'paredit-forward-barf-sexp)
+    ;;(local-set-key (kbd "<C-right>") 'right-word)
+    ;;(local-set-key (kbd "<C-left>") 'left-word)
+    ;;(local-set-key (kbd "RET") 'electrify-return-if-match)
+    (setq paredit-commands
+          (remove-duplicates
+           (append 
+            '((("C-)" "M-<right>")
+               paredit-forward-slurp-sexp
+               ("(foo (bar |baz) quux zot)"
+                "(foo (bar |baz quux) zot)")
+               ("(a b ((c| d)) e f)"
+                "(a b ((c| d) e) f)"))
+              (("C-}" "M-<left>")
+               paredit-forward-barf-sexp
+               ("(foo (bar |baz quux) zot)"
+                "(foo (bar |baz) quux zot)"))
+              (("C-<right>")
+               right-word)
+              (("C-<left>")
+               left-word)
+              (("RET")
+               electrify-return-if-match ())))
+           :test 'equal))
+    (paredit-define-keys)
+    (paredit-annotate-mode-with-examples)
+    (paredit-annotate-functions-with-examples)
+    (show-paren-mode t))
 
-(add-hook 'emacs-lisp-mode-hook       #'my-enable-paredit-mode)
-;;(add-hook 'eval-expression-minibuffer-setup-hook #'my-enable-paredit-mode)
-(add-hook 'ielm-mode-hook             #'my-enable-paredit-mode)
-(add-hook 'lisp-mode-hook             #'my-enable-paredit-mode)
-(add-hook 'lisp-interaction-mode-hook #'my-enable-paredit-mode)
-(add-hook 'scheme-mode-hook           #'my-enable-paredit-mode)
-(add-hook 'extempore-mode-hook        #'my-enable-paredit-mode)
+  (add-hook 'emacs-lisp-mode-hook       #'my-enable-paredit-mode)
+  ;;(add-hook 'eval-expression-minibuffer-setup-hook #'my-enable-paredit-mode)
+  (add-hook 'ielm-mode-hook             #'my-enable-paredit-mode)
+  (add-hook 'lisp-mode-hook             #'my-enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook #'my-enable-paredit-mode)
+  (add-hook 'scheme-mode-hook           #'my-enable-paredit-mode)
+  (add-hook 'extempore-mode-hook        #'my-enable-paredit-mode))
 
 ;;; flyspell
 
