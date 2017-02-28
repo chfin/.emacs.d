@@ -37,12 +37,19 @@
 (setq
    backup-by-copying-when-linked t  ; don't clobber symlinks
    backup-directory-alist
-    '(("" . "~/.emacs.d/saves"))    ; don't litter my fs tree
+    '(("" . "~/.emacs.d/backups"))    ; don't litter my fs tree
    delete-old-versions t
    kept-new-versions 6
    kept-old-versions 2
    version-control t                ; use versioned backups
-   vc-make-backup-files t)
+   vc-make-backup-files t
+   backup-enable-predicate
+   (lambda (name)
+     (and (normal-backup-enable-predicate name)
+          (not
+           (let ((method (file-remote-p name 'method)))
+             (when (stringp method)
+               (member method '("su" "sudo"))))))))
 
 ;;; variables
 ;;;;;;;;;;;;;
