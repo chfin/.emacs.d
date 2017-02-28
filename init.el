@@ -79,7 +79,7 @@
  '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
    (quote
-    ("2997ecd20f07b99259bddba648555335ffb7a7d908d8d3e6660ecbec415f6b95" "9d91458c4ad7c74cf946bd97ad085c0f6a40c370ac0a1cbeb2e3879f15b40553" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "5dc0ae2d193460de979a463b907b4b2c6d2c9c4657b2e9e66b8898d2592e3de5" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "98cc377af705c0f2133bb6d340bf0becd08944a588804ee655809da5d8140de6" "38e64ea9b3a5e512ae9547063ee491c20bd717fe59d9c12219a0b1050b439cdd" "1dffeecd1565d04cd2059234e872cd80fcbe813488602d5c42b5c9e576924d9f" "b9e9ba5aeedcc5ba8be99f1cc9301f6679912910ff92fdf7980929c2fc83ab4d" "84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" "4e753673a37c71b07e3026be75dc6af3efbac5ce335f3707b7d6a110ecb636a3" "e56ee322c8907feab796a1fb808ceadaab5caba5494a50ee83a13091d5b1a10c" "b0ab5c9172ea02fba36b974bbd93bc26e9d26f379c9a29b84903c666a5fde837" "40f6a7af0dfad67c0d4df2a1dd86175436d79fc69ea61614d668a635c2cd94ab" "f3d6a49e3f4491373028eda655231ec371d79d6d2a628f08d5aa38739340540b" "f5eb916f6bd4e743206913e6f28051249de8ccfd070eae47b5bde31ee813d55f" "0fb6369323495c40b31820ec59167ac4c40773c3b952c264dd8651a3b704f6b5" "0a1a7f64f8785ffbf5b5fbe8bca1ee1d9e1fb5e505ad9a0f184499fe6747c1af" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8fed5e4b89cf69107d524c4b91b4a4c35bcf1b3563d5f306608f0c48f580fdf8" "617219c11282b84761477059b9339da78ce392c974d9308535ee4ec8c0770bee" "19352d62ea0395879be564fc36bc0b4780d9768a964d26dfae8aad218062858d" "05c3bc4eb1219953a4f182e10de1f7466d28987f48d647c01f1f0037ff35ab9a" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "cbef37d6304f12fb789f5d80c2b75ea01465e41073c30341dc84c6c0d1eb611d" "9dae95cdbed1505d45322ef8b5aa90ccb6cb59e0ff26fef0b8f411dfc416c552" "4e262566c3d57706c70e403d440146a5440de056dfaeb3062f004da1711d83fc" "c5a044ba03d43a725bd79700087dea813abcb6beb6be08c7eb3303ed90782482" default)))
+    ("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "2997ecd20f07b99259bddba648555335ffb7a7d908d8d3e6660ecbec415f6b95" default)))
  '(fci-rule-character-color "#202020")
  '(fci-rule-color "#383838")
  '(foreground-color "#657b83")
@@ -108,18 +108,8 @@
      (org-ref-bibliography-notes . "~/Uni/master/notes/bibliography.org")
      (org-ref-default-bibliography "~/Uni/master/notes/bibliography.bib")
      (reftex-default-bibliography "~/Uni/master/notes/bibliography.bib")
-     (bibtex-completion-bibliography . "~/Uni/master/notes/notes-bib.org")
-     (bibtex-completion-notes-path . "~/Uni/master/notes/notes-bib.org")
-     (bibtex-completion-notes-path . "~/Uni/master/notes/helm-bibtex-notes")
      (bibtex-completion-library-path . "~/Uni/master/papers")
      (org-ref-pdf-directory "~/Uni/master/papers/")
-     (reftex-default-bibliography "~/Uni/master/notes/notes-bib.bib")
-     (org-ref-bibliography-notes . "~/Uni/master/notes/notes-bib.org")
-     (bibtex-completion-bibliography . "~/Uni/master/notes/notes-bib.bib")
-     (org-ref-bib-bibliography-notes . "~/Uni/master/notes/notes-bib.org")
-     (org-ref-default-bibliography "~/Uni/master/notes/notes-bib.bib")
-     (org-ref-bibliography-notes . "./notes-bib.org")
-     (org-ref-default-bibliography "./notes-bib.bib")
      (eval yas-activate-extra-mode
            (quote overtone-mode))
      (eval visual-line-mode t))))
@@ -151,8 +141,6 @@
      (340 . "#94BFF3")
      (360 . "#DC8CC3"))))
  '(vc-annotate-very-old-color "#DC8CC3")
- '(weechat-color-list
-   (unspecified "#272822" "#49483E" "#A20C41" "#F92672" "#67930F" "#A6E22E" "#968B26" "#E6DB74" "#21889B" "#66D9EF" "#A41F99" "#FD5FF0" "#349B8D" "#A1EFE4" "#F8F8F2" "#F8F8F0"))
  '(writeroom-width 100))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
