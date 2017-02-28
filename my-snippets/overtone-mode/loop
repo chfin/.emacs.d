@@ -1,0 +1,14 @@
+# contributor: chfin <chfin@freenet.de>
+# name: overtone temporal recursion loop
+# key: loop
+# --
+(def $1-looper-running (atom true))
+
+(defn ${1:name}-looper [beat${2: args}]
+  (with-looper-check $1-looper-running
+      $0
+      (apply-by (${3:metro} (+ beat ${4:$(let ((num (string-to-number yas-text)))
+                                           (if (< num 2) (/ num 2.0) (- num 1)))})) #'$1-looper (+ beat ${4:1})$2 [])))
+
+($1-looper ($3))
+(reset! $1-looper-running false)

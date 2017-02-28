@@ -1,9 +1,8 @@
+*
+!init.el
+!README.md
+!cheatsheet
+!my-snippets/
+!my-snippets/**
+!.gitignore
 *~
-url/
-elpa/
-auto-save-list/
-thumbs/
-ac-comphist.dat
-ido.last
-projectile-bookmarks.eld
-projectile.cache
