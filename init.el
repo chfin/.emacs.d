@@ -115,7 +115,6 @@
      (eval visual-line-mode t))))
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
- '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
  '(term-default-bg-color "#fdf6e3")
  '(term-default-fg-color "#657b83")
  '(tool-bar-mode nil)
@@ -149,26 +148,31 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "DejaVu Sans Mono" :foundry "PfEd" :slant normal :weight normal :height 98 :width normal))))
  '(header-line ((t (:foreground "#F0DFAF" :box nil))))
- '(mode-line ((t (:background "#2B2B2B" :foreground "#8FB28F" :inverse-video nil :box (:line-width 1 :color "#75715E")))))
- '(mode-line-inactive ((t (:background "#383838" :foreground "#5F7F5F" :inverse-video nil :box (:line-width 1 :color "#75715E"))))))
+ '(mode-line ((t (:background "#2B2B2B" :foreground "#8FB28F" :inverse-video nil :box nil))))
+ '(mode-line-inactive ((t (:background "#383838" :foreground "#5F7F5F" :inverse-video nil :box nil)))))
 (put 'scroll-left 'disabled nil)
+
+;; alternative modeline faces with border
+;;'(mode-line ((t (:background "#2B2B2B" :foreground "#8FB28F" :inverse-video nil :box (:line-width 1 :color "#75715E")))))
+;;'(mode-line-inactive ((t (:background "#383838" :foreground "#5F7F5F" :inverse-video nil :box (:line-width 1 :color "#75715E")))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; customization ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; highlight whole region between parens
-;;(setq show-paren-style 'expression)
-
 ;;; smart-mode-line
 ;;;;;;;;;;;;;;;;;;;
 
 ;; These two lines are just examples
-;;(setq powerline-arrow-shape 'wave)
 ;;(setq powerline-default-separator-dir '(right . left))
 ;; These two lines you really need.
-(setq sml/theme 'respectful)
-(sml/setup)
+
+(use-package smart-mode-line :ensure t
+  :init
+  ;;(setq powerline-default-separator 'wave)
+  (setq sml/theme 'respectful)
+  (sml/setup))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; general editing tools ;;;;
