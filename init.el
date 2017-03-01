@@ -407,12 +407,6 @@
   :config
   (setq user-extempore-directory "~/dateien/src/extempore/"))
 
-;;;;;;;;;;;;;;;;;;;;;
-;;; supercollider ;;;
-;;;;;;;;;;;;;;;;;;;;;
-
-(autoload 'sclang-start "sclang" "" t)
-
 ;;;;;;;;;;;;;;
 ;;;; lisp ;;;;
 ;;;;;;;;;;;;;;
