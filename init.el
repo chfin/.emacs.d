@@ -28,34 +28,6 @@
 ;;; currently installed:
 ;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; find with (remove-duplicates package-activated-list)
-;; M-x eval-print-last-sexp
-
-(setq my-packages
-      '(ac-geiser ac-slime ace-jump-mode auto-complete chicken-scheme cider clojure-mode company-auctex auctex company-math company-quickhelp elpy company find-file-in-project geiser gnuplot graphviz-dot-mode haskell-mode highlight-indentation ido-ubiquitous ido-completing-read+ ido-vertical-mode idomenu js2-mode markdown-mode math-symbol-lists monokai-theme no-easy-keys nodejs-repl org paredit popup pos-tip projectile pkg-info epl prolog pyvenv queue s slime smart-mode-line rich-minority smex solarized-theme dash spinner undo-tree yaml-mode yasnippet zenburn-theme))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; general settings ;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; put backups in a meaningful place
-(setq
-   backup-by-copying-when-linked t  ; don't clobber symlinks
-   backup-directory-alist
-    '(("" . "~/.emacs.d/backups"))    ; don't litter my fs tree
-   delete-old-versions t
-   kept-new-versions 6
-   kept-old-versions 2
-   version-control t                ; use versioned backups
-   vc-make-backup-files t
-   backup-enable-predicate
-   (lambda (name)
-     (and (normal-backup-enable-predicate name)
-          (not
-           (let ((method (file-remote-p name 'method)))
-             (when (stringp method)
-               (member method '("su" "sudo"))))))))
-
 ;;; variables
 ;;;;;;;;;;;;;
 
@@ -183,23 +155,56 @@
 ;;;; general editing settings and tools ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; general settings ;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; put backups in a meaningful place
+(setq
+   backup-by-copying-when-linked t  ; don't clobber symlinks
+   backup-directory-alist
+    '(("" . "~/.emacs.d/backups"))    ; don't litter my fs tree
+   delete-old-versions t
+   kept-new-versions 6
+   kept-old-versions 2
+   version-control t                ; use versioned backups
+   vc-make-backup-files t
+   backup-enable-predicate
+   (lambda (name)
+     (and (normal-backup-enable-predicate name)
+          (not
+           (let ((method (file-remote-p name 'method)))
+             (when (stringp method)
+               (member method '("su" "sudo"))))))))
+
 ;;use tabs
 (setq-default indent-tabs-mode nil)
 
-;;; delete-selection-mode
+;; delete-selection-mode
 (delete-selection-mode 1)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; useful general packages ;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;;; undo-tree
+;;;;;;;;;;;;;
+
 (use-package undo-tree :ensure t
   :diminish undo-tree-mode
   :init (global-undo-tree-mode))
 
 ;;; ace-jump
+;;;;;;;;;;;;
+
 (use-package ace-jump-mode :ensure t
   :disabled ;; in favour of avy
   :bind (("C-;" . ace-jump-mode)))
 
 ;;; projectile
+;;;;;;;;;;;;;;
+
 (use-package projectile :ensure t
   :init
   (projectile-global-mode)
@@ -238,7 +243,7 @@
    ("C-c C-c M-x" . execute-extended-command)))
 
 ;;; ivy/counsel (instead of helm/smex)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package ivy :ensure t
   :demand
@@ -250,18 +255,13 @@
   :init
   (ivy-mode 1)
   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
-  ;;(setq ivy-use-virtual-buffers t)
-  ;; number of result lines to display
-  ;;(setq ivy-height 10)
-  ;; does not count candidates
-  ;;(setq ivy-count-format "")
+  (setq ivy-use-virtual-buffers t)
   ;; no regexp by default
   (setq ivy-initial-inputs-alist nil)
   ;; configure regexp engine.
   (setq ivy-re-builders-alist
         ;; allow input not in order
-        '((t   . ivy--regex-ignore-order)))
-  )
+        '((t   . ivy--regex-ignore-order))))
 
 (use-package swiper :ensure t
   :demand
@@ -278,6 +278,7 @@
 
 ;;; avy (instead of ace-jump-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package avy :ensure t
   :bind
   (("C-;" . avy-goto-word-or-subword-1)))
@@ -315,14 +316,15 @@
    ("M-<tab>" . yas-next-field-or-maybe-expand)
    ("M-S-<tab>" . yas-prev)))
 
-;;; autocomplete
-;;;;;;;;;;;;;;;;
+;;; auto-complete
+;;;;;;;;;;;;;;;;;
+;; disabled for company
 
 (use-package auto-complete :ensure t
-  :disabled
-  )
+  :disabled)
 
 ;;; company
+;;;;;;;;;;;
 
 (defun company-mode/backend-with-yas (backend)
   (if (and (listp backend) (member 'company-yasnippet backend))
@@ -333,8 +335,11 @@
 (use-package company :ensure t
   :init
   (global-company-mode)
-  (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
-  (company-quickhelp-mode 1))
+  (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends)))
+
+(use-package company-quickhelp :ensure t
+  :config
+  (company-quickhelp-mode t))
 
 ;;; paredit
 ;;;;;;;;;;;
@@ -375,6 +380,7 @@
               ("RET" . electrify-return-if-match)))
 
 ;;; flyspell
+;;;;;;;;;;;;
 
 (use-package flyspell
   :commands (activate-flyspell flyspell-mode)
@@ -387,21 +393,20 @@
     (flyspell-mode t)
     (flyspell-buffer)))
 
-;;;;;;;;;;;;;;;;;;;
-;;;; extempore ;;;;
-;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; programming modes ;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; extempore
+;;;;;;;;;;;;;
 
 (use-package extempore-mode :ensure t
   :config
   (setq user-extempore-directory "~/dateien/src/extempore/")
   (add-hook 'extempore-mode-hook        #'paredit-mode))
 
-;;;;;;;;;;;;;;
-;;;; lisp ;;;;
-;;;;;;;;;;;;;;
-
-;;; slime
-;;;;;;;;;
+;;; common lisp
+;;;;;;;;;;;;;;;
 
 (use-package slime :ensure t
   :config
@@ -410,9 +415,10 @@
   (add-hook 'slime-mode-hook #'paredit-mode)
   (add-hook 'slime-repl-mode-hook #'paredit-mode))
 
-;;;;;;;;;;;;;;;;;
-;;;; clojure ;;;;
-;;;;;;;;;;;;;;;;;
+(use-package slime-company :ensure t)
+
+;;;; clojure
+;;;;;;;;;;;;
 
 (defun cider-mode-stuff ()
   (paredit-mode t)
@@ -427,9 +433,8 @@
   (add-hook 'cider-mode-hook #'cider-mode-stuff)
   (add-hook 'clojure-mode-hook #'paredit-mode))
 
-;;;;;;;;;;;;;;;;
-;;;; python ;;;;
-;;;;;;;;;;;;;;;;
+;;; python
+;;;;;;;;;;
 
 (use-package flycheck :ensure t
   :commands (flycheck-mode)
@@ -439,6 +444,8 @@
 (use-package py-autopep8 :ensure t
   :init (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
 
+(use-package company-jedi :ensure t)
+
 (use-package elpy :ensure t
   :init (elpy-enable)
   :config
@@ -447,49 +454,67 @@
               ;;(highlight-indentation-mode nil)
               (add-to-list 'company-backends 'company-jedi))))
 
-;;;;;;;;;;;;;;;;;;;
-;;;; julia/ESS ;;;;
-;;;;;;;;;;;;;;;;;;;
+;;; julia/ESS
+;;;;;;;;;;;;;
 
 (use-package ess :ensure t
   ;;:defer t
   :config
   (require 'ess-site))
 
-;;;;;;;;;;;;;;;;;
-;;;; haskell ;;;;
-;;;;;;;;;;;;;;;;;
+;;; haskell
+;;;;;;;;;;;
 
-(use-package haskell-mode :ensure t)
+(use-package haskell-mode :ensure t
+  :config (add-hook 'haskell-mode-hook #'turn-on-haskell-indentation))
 (use-package intero :ensure t
   :diminish ">>="
   :config (add-hook 'haskell-mode-hook 'intero-mode))
 
-;;;;;;;;;;;;;;;
-;;;; scala ;;;;
-;;;;;;;;;;;;;;;
+;;; scala
+;;;;;;;;;
 
 (use-package ensime
   :ensure t
   :pin melpa-stable)
 
-;;;;;;;;;;;;;;;
-;;;; latex ;;;;
-;;;;;;;;;;;;;;;
+;;; javascript
+;;;;;;;;;;;;;;
+
+(use-package js2-mode :ensure t)
+
+;;; prolog
+;;;;;;;;;;
+
+(use-package prolog :ensure t)
+
+;;; web-dev
+;;;;;;;;;;;
+
+(use-package web-mode :ensure t)
+
+;;;;;;;;;;;;;;;;;;;;
+;;;; text modes ;;;;
+;;;;;;;;;;;;;;;;;;;;
+
+;;; latex
+;;;;;;;;;
 
 (use-package tex :ensure auctex
   :config
   ;;(add-hook 'TeX-mode-hook 'my-auctex-startup)
   (setq TeX-parse-self t))
 
+(use-package company-math :ensure t)
+
 (use-package company-auctex :ensure t
   :config
-  (setq-local company-backends
-              (append '(company-math-symbols-latex company-latex-commands)
-                      company-backends))
-  (company-auctex-init))
-
-;;; ref-tex
+  (add-hook 'TeX-mode-hook
+            (lambda ()
+              (setq-local company-backends
+                          (append '(company-math-symbols-latex company-latex-commands)
+                                  company-backends)))
+            (company-auctex-init)))
 
 (use-package reftex :ensure t
   :config
@@ -497,9 +522,8 @@
   (setq reftex-plug-into-AUCTeX t)
   (setq reftex-default-bibliography '("~/.emacs.d/zotero.bib")))
 
-;;;;;;;;;;;;;
-;;;; org ;;;;
-;;;;;;;;;;;;;
+;;; org mode
+;;;;;;;;;;;;
 
 (use-package org :ensure t
   :config
@@ -524,7 +548,7 @@
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
-;;; org-ref
+(use-package ox-pandoc :ensure t)
 
 (use-package org-ref :ensure t
   :after org
@@ -620,12 +644,43 @@
           for file in files
           append (cddr (assoc file bibtex-completion-cache))))))))
 
+;;; markdown
+;;;;;;;;;;;;
+
+(use-package markdown-mode :ensure t)
+
+;;; graphviz
+;;;;;;;;;;;;
+
+(use-package graphviz-dot-mode :ensure t)
+
+;;; yaml
+;;;;;;;;
+
+(use-package yaml-mode :ensure t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; special task modes ;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; ein: emacs ipython/jupyter
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package ein :ensure t
+  :commands (ein:notebooklist-open ein:notebooklist-login))
+
 ;;; magit
 ;;;;;;;;;
 
 (use-package magit :ensure t
   :bind
   ("C-x g" . magit-status))
+
+;;; writeroom-mode
+;;;;;;;;;;;;;;;;;;
+
+(use-package writeroom-mode :ensure t
+  :commands (writeroom-mode global-writeroom-mode))
 
 ;;;;;;;;;;;;;;;;;;;;
 ;;;; cheatsheet ;;;;
