@@ -1,3 +1,5 @@
+(setq ad-redefinition-action 'accept)
+
 ;;;;;;;;;;;;;;;;;;
 ;;;; packages ;;;;
 ;;;;;;;;;;;;;;;;;;
@@ -203,12 +205,10 @@
 ;;; ido
 ;;;;;;;
 
-(use-package ido-mode
-  :init
-  (ido-mode t)
-  (setq ido-everywhere t)
-  (setq ido-enable-flex-matching t)
-  (setq ido-use-faces nil))
+(ido-mode t)
+(setq ido-everywhere t)
+(setq ido-enable-flex-matching t)
+(setq ido-use-faces nil)
 
 (use-package flx-ido :ensure t
   :init
