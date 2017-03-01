@@ -94,7 +94,7 @@
  '(org-agenda-files (quote ("~/Uni/master/notes.org")))
  '(package-selected-packages
    (quote
-    (ivy-bibtex counsel swiper ox-pandoc org-ref web-mode php-mode use-package ensime intero smart-mode-line-powerline-theme zenburn-theme yaml-mode writeroom-mode undo-tree solarized-theme smex smart-mode-line slime-company s py-autopep8 prolog projectile paredit org nodejs-repl no-easy-keys monokai-theme material-theme markdown-mode magit julia-shell js2-mode idomenu ido-vertical-mode ido-ubiquitous haskell-mode graphviz-dot-mode gnuplot flycheck flx-ido ess elpy ein cyberpunk-theme csv-mode company-quickhelp company-math company-jedi company-auctex cider chicken-scheme aggressive-indent ace-jump-mode ac-slime ac-geiser)))
+    (ace-window avy ivy-bibtex counsel swiper ox-pandoc org-ref web-mode php-mode use-package ensime intero smart-mode-line-powerline-theme zenburn-theme yaml-mode writeroom-mode undo-tree solarized-theme smex smart-mode-line slime-company s py-autopep8 prolog projectile paredit org nodejs-repl no-easy-keys monokai-theme material-theme markdown-mode magit julia-shell js2-mode idomenu ido-vertical-mode ido-ubiquitous haskell-mode graphviz-dot-mode gnuplot flycheck flx-ido ess elpy ein cyberpunk-theme csv-mode company-quickhelp company-math company-jedi company-auctex cider chicken-scheme aggressive-indent ace-jump-mode ac-slime ac-geiser)))
  '(powerline-color1 "#1e1e1e")
  '(powerline-color2 "#111111")
  '(safe-local-variable-values
@@ -188,6 +188,7 @@
 
 ;;; ace-jump
 (use-package ace-jump-mode :ensure t
+  :disabled ;; in favour of avy
   :bind (("C-;" . ace-jump-mode)))
 
 ;;; projectile
@@ -219,6 +220,7 @@
 
 ;;; smex
 ;;;;;;;;
+;; disabled in favour of ivy/counsel
 
 ;(smex-initialize)
 ;(global-set-key (kbd "M-x") 'smex)
@@ -226,7 +228,7 @@
 ;; This is your old M-x.
 ;(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
-;;; ivy (instead of helm/smex)
+;;; ivy/counsel (instead of helm/smex)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package ivy :ensure t
@@ -236,7 +238,7 @@
   (:map ivy-mode-map
         ;;("C-'" . ivy-avy)
         )
-  :config
+  :init
   (ivy-mode 1)
   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
   ;;(setq ivy-use-virtual-buffers t)
@@ -265,7 +267,15 @@
   :config
   (setq counsel-find-file-ignore-regexp "\\(?:\\`[#.]\\)\\|\\(?:[#~]\\'\\)\\|\\(\\`\\.\\)"))
 
-(ivy-mode 1)
+;;; avy (instead of ace-jump-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package avy :ensure t
+  :bind
+  (("C-;" . avy-goto-word-or-subword-1)))
+
+(use-package ace-window :ensure t
+  :bind
+  (("s-o" . ace-window)))
 
 ;;; yasnippet
 ;;;;;;;;;;;;;
