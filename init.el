@@ -96,7 +96,7 @@
  '(org-agenda-files (quote ("~/Uni/master/notes.org")))
  '(package-selected-packages
    (quote
-    (ace-window avy ivy-bibtex counsel swiper ox-pandoc org-ref web-mode php-mode use-package ensime intero smart-mode-line-powerline-theme zenburn-theme yaml-mode writeroom-mode undo-tree solarized-theme smex smart-mode-line slime-company s py-autopep8 prolog projectile paredit org nodejs-repl no-easy-keys monokai-theme material-theme markdown-mode magit julia-shell js2-mode idomenu ido-vertical-mode ido-ubiquitous haskell-mode graphviz-dot-mode gnuplot flycheck flx-ido ess elpy ein cyberpunk-theme csv-mode company-quickhelp company-math company-jedi company-auctex cider chicken-scheme aggressive-indent ace-jump-mode ac-slime ac-geiser)))
+    (extempore-mode ace-window avy ivy-bibtex counsel swiper ox-pandoc org-ref web-mode php-mode use-package ensime intero smart-mode-line-powerline-theme zenburn-theme yaml-mode writeroom-mode undo-tree solarized-theme smex smart-mode-line slime-company s py-autopep8 prolog projectile paredit org nodejs-repl no-easy-keys monokai-theme material-theme markdown-mode magit julia-shell js2-mode idomenu ido-vertical-mode ido-ubiquitous haskell-mode graphviz-dot-mode gnuplot flycheck flx-ido ess elpy ein cyberpunk-theme csv-mode company-quickhelp company-math company-jedi company-auctex cider chicken-scheme aggressive-indent ace-jump-mode ac-slime ac-geiser)))
  '(powerline-color1 "#1e1e1e")
  '(powerline-color2 "#111111")
  '(safe-local-variable-values
@@ -403,11 +403,9 @@
 ;;;; extempore ;;;;
 ;;;;;;;;;;;;;;;;;;;
 
-
-(autoload 'extempore-mode "~/dateien/src/extempore/extras/extempore.el" "" t)
-(add-to-list 'auto-mode-alist '("\\.xtm$" . extempore-mode))
-(setq user-extempore-directory "~/dateien/src/extempore/")
-;;(setq extempore-program-args "--term nocolor")
+(use-package extempore-mode :ensure t
+  :config
+  (setq user-extempore-directory "~/dateien/src/extempore/"))
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;;; supercollider ;;;
