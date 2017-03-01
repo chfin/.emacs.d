@@ -293,10 +293,10 @@
   ;;:disabled
   ;;:commands (yas-minor-mode)
   :init
-  (add-hook 'prog-mode-hook #'yas-minor-mode)
+  ;;(add-hook 'prog-mode-hook #'yas-minor-mode)
   
   :config
-  ;;(yas-global-mode 1)
+  (yas-global-mode 1)
   (setq yas-snippet-dirs (append yas-snippet-dirs '("~/.emacs.d/my-snippets")))
   (yas-reload-all)
   
@@ -477,19 +477,25 @@
 ;;;; latex ;;;;
 ;;;;;;;;;;;;;;;
 
-(defun my-auctex-startup ()
-  (company-mode t)
+(use-package tex :ensure auctex
+  :config
+  ;;(add-hook 'TeX-mode-hook 'my-auctex-startup)
+  (setq TeX-parse-self t))
+
+(use-package company-auctex :ensure t
+  :config
   (setq-local company-backends
               (append '(company-math-symbols-latex company-latex-commands)
                       company-backends))
   (company-auctex-init))
-(add-hook 'TeX-mode-hook 'my-auctex-startup)
-(setq TeX-parse-self t)
 
 ;;; ref-tex
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-(setq reftex-plug-into-AUCTeX t)
-(setq reftex-default-bibliography '("~/.emacs.d/zotero.bib"))
+
+(use-package reftex :ensure t
+  :config
+  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+  (setq reftex-plug-into-AUCTeX t)
+  (setq reftex-default-bibliography '("~/.emacs.d/zotero.bib")))
 
 ;;;;;;;;;;;;;
 ;;;; org ;;;;
@@ -504,13 +510,13 @@
                ;; list of notes
                '("notes"
                  "\\documentclass[a4paper,10pt,DIV=12]{scrartcl}\n
-      \\usepackage[utf8]{inputenc}\n
-      \\usepackage[T1]{fontenc}\n
-      %\\usepackage{libertine}\n
-      %\\renewcommand*\\oldstylenums[1]{{\\fontfamily{fxlj}\\selectfont #1}}\n
-      %\\usepackage{lmodern}\n
-      \\usepackage{hyperref}\n
-      \\usepackage{color}"
+\\usepackage[utf8]{inputenc}\n
+\\usepackage[T1]{fontenc}\n
+%\\usepackage{libertine}\n
+%\\renewcommand*\\oldstylenums[1]{{\\fontfamily{fxlj}\\selectfont #1}}\n
+%\\usepackage{lmodern}\n
+\\usepackage{hyperref}\n
+\\usepackage{color}"
 
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
