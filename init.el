@@ -366,31 +366,13 @@
   (add-hook 'lisp-mode-hook             #'paredit-mode)
   (add-hook 'lisp-interaction-mode-hook #'paredit-mode)
   (add-hook 'scheme-mode-hook           #'paredit-mode)
-  
-  :config
-  (setq paredit-commands
-        (remove-duplicates
-         (append 
-          '((("C-)" "M-<right>")
-             paredit-forward-slurp-sexp
-             ("(foo (bar |baz) quux zot)"
-              "(foo (bar |baz quux) zot)")
-             ("(a b ((c| d)) e f)"
-              "(a b ((c| d) e) f)"))
-            (("C-}" "M-<left>")
-             paredit-forward-barf-sexp
-             ("(foo (bar |baz quux) zot)"
-              "(foo (bar |baz) quux zot)"))
-            (("C-<right>")
-             right-word)
-            (("C-<left>")
-             left-word)
-            (("RET")
-             electrify-return-if-match ())))
-         :test 'equal))
-  (paredit-define-keys)
-  (paredit-annotate-mode-with-examples)
-  (paredit-annotate-functions-with-examples))
+
+  :bind (:map paredit-mode-map
+              ("M-<right>" . paredit-forward-slurp-sexp)
+              ("M-<left>" . paredit-forward-barf-sexp)
+              ("C-<right>" . right-word)
+              ("C-<left>" . left-word)
+              ("RET" . electrify-return-if-match)))
 
 ;;; flyspell
 
