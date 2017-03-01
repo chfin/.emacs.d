@@ -91,7 +91,7 @@
  '(fringe-mode nil nil (fringe))
  '(geiser-mode-auto-p nil)
  '(geiser-mode-autodoc-p nil)
- '(haskell-mode-hook (quote (turn-on-haskell-indentation)) t)
+ '(haskell-mode-hook (quote (turn-on-haskell-indentation)))
  '(indicate-empty-lines t)
  '(inhibit-startup-screen t)
  '(linum-format " %7i ")
@@ -460,7 +460,10 @@
 ;;;; haskell ;;;;
 ;;;;;;;;;;;;;;;;;
 
-(add-hook 'haskell-mode-hook 'intero-mode)
+(use-package haskell-mode :ensure t)
+(use-package intero :ensure t
+  :diminish ">>="
+  :config (add-hook 'haskell-mode-hook 'intero-mode))
 
 ;;;;;;;;;;;;;;;
 ;;;; scala ;;;;
