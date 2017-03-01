@@ -347,13 +347,21 @@
     (newline arg)
     (indent-according-to-mode)))
 
-(defun my-enable-paredit-mode ()
-  (paredit-mode t)
-  ;;(local-set-key (kbd "<M-right>") 'paredit-forward-slurp-sexp)
-  ;;(local-set-key (kbd "<M-left>") 'paredit-forward-barf-sexp)
-  ;;(local-set-key (kbd "<C-right>") 'right-word)
-  ;;(local-set-key (kbd "<C-left>") 'left-word)
-  ;;(local-set-key (kbd "RET") 'electrify-return-if-match)
+(use-package paredit :ensure t
+  :defer t
+  :diminish "()"
+  :commands (my-enable-paredit-mode)
+  
+  :init
+  (add-hook 'emacs-lisp-mode-hook       #'paredit-mode)
+  ;;(add-hook 'eval-expression-minibuffer-setup-hook #'paredit-mode)
+  (add-hook 'ielm-mode-hook             #'paredit-mode)
+  (add-hook 'lisp-mode-hook             #'paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook #'paredit-mode)
+  (add-hook 'scheme-mode-hook           #'paredit-mode)
+  (add-hook 'extempore-mode-hook        #'paredit-mode)
+  
+  :config
   (setq paredit-commands
         (remove-duplicates
          (append 
@@ -376,22 +384,7 @@
          :test 'equal))
   (paredit-define-keys)
   (paredit-annotate-mode-with-examples)
-  (paredit-annotate-functions-with-examples)
-  (show-paren-mode t))
-
-(use-package paredit :ensure t
-  :defer t
-  :diminish "()"
-  :commands (my-enable-paredit-mode)
-  
-  :init
-  (add-hook 'emacs-lisp-mode-hook       #'my-enable-paredit-mode)
-  ;;(add-hook 'eval-expression-minibuffer-setup-hook #'my-enable-paredit-mode)
-  (add-hook 'ielm-mode-hook             #'my-enable-paredit-mode)
-  (add-hook 'lisp-mode-hook             #'my-enable-paredit-mode)
-  (add-hook 'lisp-interaction-mode-hook #'my-enable-paredit-mode)
-  (add-hook 'scheme-mode-hook           #'my-enable-paredit-mode)
-  (add-hook 'extempore-mode-hook        #'my-enable-paredit-mode))
+  (paredit-annotate-functions-with-examples))
 
 ;;; flyspell
 
