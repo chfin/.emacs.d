@@ -316,62 +316,75 @@
   :disabled
   )
 
+;;; company
+
+(defun company-mode/backend-with-yas (backend)
+  (if (and (listp backend) (member 'company-yasnippet backend))
+      backend
+    (append (if (consp backend) backend (list backend))
+            '(:with company-yasnippet))))
+
+(use-package company :ensure t
+  :init
+  (global-company-mode)
+  (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends)))
+
 ;;; paredit
 ;;;;;;;;;;;
+
+(defvar electrify-return-match
+  "[\]}\)]"
+  "If this regexp matches the text after the cursor, do an \"electric\" return.")
+
+(defun electrify-return-if-match (arg)
+  "If the text after the cursor matches `electrify-return-match' then
+  open and indent an empty line between the cursor and the text.  Move the
+  cursor to the new line."
+  (interactive "P")
+  (let ((case-fold-search nil))
+    (if (looking-at electrify-return-match)
+        (save-excursion (newline-and-indent)))
+    (newline arg)
+    (indent-according-to-mode)))
+
+(defun my-enable-paredit-mode ()
+  (paredit-mode t)
+  ;;(local-set-key (kbd "<M-right>") 'paredit-forward-slurp-sexp)
+  ;;(local-set-key (kbd "<M-left>") 'paredit-forward-barf-sexp)
+  ;;(local-set-key (kbd "<C-right>") 'right-word)
+  ;;(local-set-key (kbd "<C-left>") 'left-word)
+  ;;(local-set-key (kbd "RET") 'electrify-return-if-match)
+  (setq paredit-commands
+        (remove-duplicates
+         (append 
+          '((("C-)" "M-<right>")
+             paredit-forward-slurp-sexp
+             ("(foo (bar |baz) quux zot)"
+              "(foo (bar |baz quux) zot)")
+             ("(a b ((c| d)) e f)"
+              "(a b ((c| d) e) f)"))
+            (("C-}" "M-<left>")
+             paredit-forward-barf-sexp
+             ("(foo (bar |baz quux) zot)"
+              "(foo (bar |baz) quux zot)"))
+            (("C-<right>")
+             right-word)
+            (("C-<left>")
+             left-word)
+            (("RET")
+             electrify-return-if-match ())))
+         :test 'equal))
+  (paredit-define-keys)
+  (paredit-annotate-mode-with-examples)
+  (paredit-annotate-functions-with-examples)
+  (show-paren-mode t))
 
 (use-package paredit :ensure t
   :defer t
   :diminish "()"
-  :init
-  (autoload 'my-enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+  :commands (my-enable-paredit-mode)
   
-  (defvar electrify-return-match
-    "[\]}\)]"
-    "If this regexp matches the text after the cursor, do an \"electric\" return.")
-
-  (defun electrify-return-if-match (arg)
-    "If the text after the cursor matches `electrify-return-match' then
-  open and indent an empty line between the cursor and the text.  Move the
-  cursor to the new line."
-    (interactive "P")
-    (let ((case-fold-search nil))
-      (if (looking-at electrify-return-match)
-          (save-excursion (newline-and-indent)))
-      (newline arg)
-      (indent-according-to-mode)))
-
-  (defun my-enable-paredit-mode ()
-    (paredit-mode t)
-    ;;(local-set-key (kbd "<M-right>") 'paredit-forward-slurp-sexp)
-    ;;(local-set-key (kbd "<M-left>") 'paredit-forward-barf-sexp)
-    ;;(local-set-key (kbd "<C-right>") 'right-word)
-    ;;(local-set-key (kbd "<C-left>") 'left-word)
-    ;;(local-set-key (kbd "RET") 'electrify-return-if-match)
-    (setq paredit-commands
-          (remove-duplicates
-           (append 
-            '((("C-)" "M-<right>")
-               paredit-forward-slurp-sexp
-               ("(foo (bar |baz) quux zot)"
-                "(foo (bar |baz quux) zot)")
-               ("(a b ((c| d)) e f)"
-                "(a b ((c| d) e) f)"))
-              (("C-}" "M-<left>")
-               paredit-forward-barf-sexp
-               ("(foo (bar |baz quux) zot)"
-                "(foo (bar |baz) quux zot)"))
-              (("C-<right>")
-               right-word)
-              (("C-<left>")
-               left-word)
-              (("RET")
-               electrify-return-if-match ())))
-           :test 'equal))
-    (paredit-define-keys)
-    (paredit-annotate-mode-with-examples)
-    (paredit-annotate-functions-with-examples)
-    (show-paren-mode t))
-
+  :init
   (add-hook 'emacs-lisp-mode-hook       #'my-enable-paredit-mode)
   ;;(add-hook 'eval-expression-minibuffer-setup-hook #'my-enable-paredit-mode)
   (add-hook 'ielm-mode-hook             #'my-enable-paredit-mode)
@@ -396,6 +409,7 @@
 ;;;;;;;;;;;;;;;;;;;
 ;;;; extempore ;;;;
 ;;;;;;;;;;;;;;;;;;;
+
 
 (autoload 'extempore-mode "~/dateien/src/extempore/extras/extempore.el" "" t)
 (add-to-list 'auto-mode-alist '("\\.xtm$" . extempore-mode))
