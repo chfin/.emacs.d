@@ -414,39 +414,10 @@
 ;;; slime
 ;;;;;;;;;
 
-;(load (expand-file-name "~/lisp/quicklisp/slime-helper.el"))
-;; Replace "sbcl" with the path to your implementation
-(setq inferior-lisp-program "sbcl")
-(setq slime-contribs '(slime-fancy slime-quicklisp slime-company))
-
-;;; ac-slime
-;;;;;;;;;;;;
-
-;; (defun my-set-up-slime-ac ()
-;;   (auto-complete-mode t)
-;;   (set-up-slime-ac t) ; enable fuzzy completion (t)
-;;   ;;(set-up-slime-ac) ; no fuzzy completion
-;;   (delete 'ac-source-words-in-same-mode-buffers ac-sources))
-
-;; ;;(add-hook 'slime-mode-hook 'set-up-slime-ac)
-;; ;;(add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
-;; (add-hook 'slime-mode-hook 'my-set-up-slime-ac)
-;; (add-hook 'slime-repl-mode-hook 'my-set-up-slime-ac)
-;; (eval-after-load "auto-complete"
-;;   '(add-to-list 'ac-modes 'slime-repl-mode))
-
-;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; chicken scheme ;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;
-
-(add-to-list 'load-path "/usr/lib/chicken/7/")
-(autoload 'chicken-slime "chicken-slime" "SWANK backend for Chicken" t)
-
-(add-hook 'scheme-mode-hook
-          (lambda ()
-            (slime-mode t)
-            ;; disable fuzzy completion here
-            (delete 'ac-source-slime-fuzzy ac-sources)))
+(use-package slime :ensure t
+  :config
+  (setq inferior-lisp-program "sbcl")
+  (setq slime-contribs '(slime-fancy slime-quicklisp slime-company)))
 
 ;;;;;;;;;;;;;;;;;
 ;;;; clojure ;;;;
