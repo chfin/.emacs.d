@@ -202,12 +202,20 @@
 ;;; ido
 ;;;;;;;
 
-(ido-mode t)
-(setq ido-everywhere t)
-(flx-ido-mode 1)
-(setq ido-enable-flex-matching t)
-(setq ido-use-faces nil)
-(ido-vertical-mode 1)
+(use-package ido-mode
+  :init
+  (ido-mode t)
+  (setq ido-everywhere t)
+  (setq ido-enable-flex-matching t)
+  (setq ido-use-faces nil))
+
+(use-package flx-ido :ensure t
+  :init
+  (flx-ido-mode 1))
+
+(use-package ido-vertical-mode :ensure t
+  :init
+  (ido-vertical-mode 1))
 
 ;;; smex
 ;;;;;;;;
