@@ -620,6 +620,13 @@
           for file in files
           append (cddr (assoc file bibtex-completion-cache))))))))
 
+;;; magit
+;;;;;;;;;
+
+(use-package magit :ensure t
+  :bind
+  ("C-x g" . magit-status))
+
 ;;;;;;;;;;;;;;;;;;;;
 ;;;; cheatsheet ;;;;
 ;;;;;;;;;;;;;;;;;;;;
