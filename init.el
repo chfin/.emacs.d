@@ -327,7 +327,8 @@
 (use-package company :ensure t
   :init
   (global-company-mode)
-  (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends)))
+  (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
+  (company-quickhelp-mode 1))
 
 ;;; paredit
 ;;;;;;;;;;;
@@ -359,7 +360,6 @@
   (add-hook 'lisp-mode-hook             #'paredit-mode)
   (add-hook 'lisp-interaction-mode-hook #'paredit-mode)
   (add-hook 'scheme-mode-hook           #'paredit-mode)
-  (add-hook 'extempore-mode-hook        #'paredit-mode)
   
   :config
   (setq paredit-commands
@@ -405,7 +405,8 @@
 
 (use-package extempore-mode :ensure t
   :config
-  (setq user-extempore-directory "~/dateien/src/extempore/"))
+  (setq user-extempore-directory "~/dateien/src/extempore/")
+  (add-hook 'extempore-mode-hook        #'paredit-mode))
 
 ;;;;;;;;;;;;;;
 ;;;; lisp ;;;;
@@ -417,27 +418,27 @@
 (use-package slime :ensure t
   :config
   (setq inferior-lisp-program "sbcl")
-  (setq slime-contribs '(slime-fancy slime-quicklisp slime-company)))
+  (setq slime-contribs '(slime-fancy slime-quicklisp slime-company))
+  (add-hook 'slime-mode-hook #'paredit-mode)
+  (add-hook 'slime-repl-mode-hook #'paredit-mode))
 
 ;;;;;;;;;;;;;;;;;
 ;;;; clojure ;;;;
 ;;;;;;;;;;;;;;;;;
 
-(company-quickhelp-mode 1)
-;;(setq cider-repl-use-pretty-printing t)
-
 (defun cider-mode-stuff ()
-  (company-mode t)
-  (my-enable-paredit-mode)
+  (paredit-mode t)
   (eldoc-mode t))
 
-(setq cider-lein-command "~/.bin/lein")
-(add-hook 'cider-repl-mode-hook #'cider-mode-stuff)
-(add-hook 'cider-mode-hook #'cider-mode-stuff)
-;;(add-hook 'clojure-mode-hook #'my-enable-paredit-mode)
-(add-hook 'cider-mode-hook
-          #'(lambda ()
-              (define-key cider-mode-map "M-TAB" nil)))
+(use-package cider :ensure t
+  :config
+  (setq cider-lein-command "~/.bin/lein")
+  ;;(setq cider-repl-use-pretty-printing t)
+  
+  (add-hook 'cider-repl-mode-hook #'cider-mode-stuff)
+  (add-hook 'cider-mode-hook #'cider-mode-stuff)
+  (add-hook 'clojure-mode-hook #'paredit-mode)
+  )
 
 ;;;;;;;;;;;;;;
 ;;;; node ;;;;
