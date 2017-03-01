@@ -138,22 +138,27 @@
 ;;;; customization ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;
 
+;;; themes
+;;;;;;;;;;
+
+(use-package monokai-theme :ensure t
+  :defer t)
+(use-package solarized-theme :ensure t
+  :defer t)
+(use-package zenburn-theme :ensure t)
+
+;;(load-theme 'zenburn t)
+
 ;;; smart-mode-line
 ;;;;;;;;;;;;;;;;;;;
 
-;; These two lines are just examples
-;;(setq powerline-default-separator-dir '(right . left))
-;; These two lines you really need.
-
+;;; load smart-mode-line
 (use-package smart-mode-line :ensure t
-  :init
+  :config
   ;;(setq powerline-default-separator 'wave)
-  (setq sml/theme 'respectful)
-  (sml/setup))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; general editing settings and tools ;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  (setq sml/theme 'respectful) ;; or powerline
+  (sml/setup)
+  (set-face-attribute 'mode-line nil :box nil))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
