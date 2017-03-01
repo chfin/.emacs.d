@@ -40,43 +40,21 @@
  '(TeX-PDF-mode t)
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(ansi-term-color-vector
    [unspecified "#110F13" "#b13120" "#719f34" "#ceae3e" "#7c9fc9" "#7868b5" "#009090" "#F4EAD5"] t)
- '(background-color "#fdf6e3")
- '(background-mode light)
  '(column-number-mode t)
- '(compilation-message-face (quote default))
- '(cua-global-mark-cursor-color "#2aa198")
- '(cua-normal-cursor-color "#657b83")
- '(cua-overwrite-cursor-color "#b58900")
- '(cua-read-only-cursor-color "#859900")
- '(cursor-color "#657b83")
- '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
    (quote
     ("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "2997ecd20f07b99259bddba648555335ffb7a7d908d8d3e6660ecbec415f6b95" default)))
  '(fci-rule-character-color "#202020")
- '(fci-rule-color "#383838")
- '(foreground-color "#657b83")
  '(fringe-mode nil nil (fringe))
- '(geiser-mode-auto-p nil)
- '(geiser-mode-autodoc-p nil)
- '(haskell-mode-hook (quote (turn-on-haskell-indentation)))
  '(indicate-empty-lines t)
  '(inhibit-startup-screen t)
  '(linum-format " %7i ")
- '(magit-diff-use-overlays nil)
- '(main-line-color1 "#1e1e1e")
- '(main-line-color2 "#111111")
- '(main-line-separator-style (quote chamfer))
  '(org-agenda-files (quote ("~/Uni/master/notes.org")))
  '(package-selected-packages
    (quote
-    (extempore-mode ace-window avy ivy-bibtex counsel swiper ox-pandoc org-ref web-mode php-mode use-package ensime intero smart-mode-line-powerline-theme zenburn-theme yaml-mode writeroom-mode undo-tree solarized-theme smex smart-mode-line slime-company s py-autopep8 prolog projectile paredit org nodejs-repl no-easy-keys monokai-theme material-theme markdown-mode magit julia-shell js2-mode idomenu ido-vertical-mode ido-ubiquitous haskell-mode graphviz-dot-mode gnuplot flycheck flx-ido ess elpy ein cyberpunk-theme csv-mode company-quickhelp company-math company-jedi company-auctex cider chicken-scheme aggressive-indent ace-jump-mode ac-slime ac-geiser)))
- '(powerline-color1 "#1e1e1e")
- '(powerline-color2 "#111111")
+    (company-math extempore-mode ace-window avy counsel swiper ox-pandoc org-ref web-mode use-package ensime intero smart-mode-line-powerline-theme zenburn-theme yaml-mode writeroom-mode undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit org monokai-theme markdown-mode magit js2-mode ido-vertical-mode haskell-mode graphviz-dot-mode flycheck flx-ido ess elpy ein company-quickhelp company-jedi company-auctex cider)))
  '(safe-local-variable-values
    (quote
     ((org-ref-pdf-directory . "~/Uni/master/papers/")
@@ -95,44 +73,14 @@
  '(term-default-bg-color "#fdf6e3")
  '(term-default-fg-color "#657b83")
  '(tool-bar-mode nil)
- '(vc-annotate-background "#2B2B2B")
- '(vc-annotate-color-map
-   (quote
-    ((20 . "#BC8383")
-     (40 . "#CC9393")
-     (60 . "#DFAF8F")
-     (80 . "#D0BF8F")
-     (100 . "#E0CF9F")
-     (120 . "#F0DFAF")
-     (140 . "#5F7F5F")
-     (160 . "#7F9F7F")
-     (180 . "#8FB28F")
-     (200 . "#9FC59F")
-     (220 . "#AFD8AF")
-     (240 . "#BFEBBF")
-     (260 . "#93E0E3")
-     (280 . "#6CA0A3")
-     (300 . "#7CB8BB")
-     (320 . "#8CD0D3")
-     (340 . "#94BFF3")
-     (360 . "#DC8CC3"))))
- '(vc-annotate-very-old-color "#DC8CC3")
  '(writeroom-width 100))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "DejaVu Sans Mono" :foundry "PfEd" :slant normal :weight normal :height 98 :width normal))))
- '(header-line ((t (:foreground "#F0DFAF" :box nil))))
- '(mode-line ((t (:background "#2B2B2B" :foreground "#8FB28F" :inverse-video nil :box nil))))
- '(mode-line-inactive ((t (:background "#383838" :foreground "#5F7F5F" :inverse-video nil :box nil)))))
+ )
 (put 'scroll-left 'disabled nil)
-
-;; alternative modeline faces with border
-;;'(mode-line ((t (:background "#2B2B2B" :foreground "#8FB28F" :inverse-video nil :box (:line-width 1 :color "#75715E")))))
-;;'(mode-line-inactive ((t (:background "#383838" :foreground "#5F7F5F" :inverse-video nil :box (:line-width 1 :color "#75715E")))))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; customization ;;;;
