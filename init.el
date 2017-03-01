@@ -451,7 +451,10 @@
 ;;;; julia/ESS ;;;;
 ;;;;;;;;;;;;;;;;;;;
 
-(require 'ess-site)
+(use-package ess :ensure t
+  ;;:defer t
+  :config
+  (require 'ess-site))
 
 ;;;;;;;;;;;;;;;;;
 ;;;; haskell ;;;;
