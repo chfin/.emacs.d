@@ -312,9 +312,9 @@
 ;;; autocomplete
 ;;;;;;;;;;;;;;;;
 
-(require 'auto-complete)
-;;(global-auto-complete-mode t)
-;;(auto-complete-mode t)
+(use-package auto-complete :ensure t
+  :disabled
+  )
 
 ;;; paredit
 ;;;;;;;;;;;
@@ -382,11 +382,16 @@
 
 ;;; flyspell
 
-(defun activate-flyspell ()
-  (interactive)
-  (ispell-change-dictionary "american")
-  (flyspell-mode t)
-  (flyspell-buffer))
+(use-package flyspell
+  :commands (activate-flyspell flyspell-mode)
+  
+  :init
+  (setq flyspell-issue-message-flag nil)
+  (defun activate-flyspell ()
+    (interactive)
+    (ispell-change-dictionary "american")
+    (flyspell-mode t)
+    (flyspell-buffer)))
 
 ;;;;;;;;;;;;;;;;;;;
 ;;;; extempore ;;;;
