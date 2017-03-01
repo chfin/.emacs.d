@@ -1,5 +1,11 @@
 (setq ad-redefinition-action 'accept)
 
+(defmacro measure-time (&rest body)
+  "Measure the time it takes to evaluate BODY."
+  `(let ((time (current-time)))
+     ,@body
+     (message "%.06f" (float-time (time-since time)))))
+
 ;;;;;;;;;;;;;;;;;;
 ;;;; packages ;;;;
 ;;;;;;;;;;;;;;;;;;
@@ -437,35 +443,27 @@
   
   (add-hook 'cider-repl-mode-hook #'cider-mode-stuff)
   (add-hook 'cider-mode-hook #'cider-mode-stuff)
-  (add-hook 'clojure-mode-hook #'paredit-mode)
-  )
-
-;;;;;;;;;;;;;;
-;;;; node ;;;;
-;;;;;;;;;;;;;;
-
-;;(require 'nodejs-repl)
+  (add-hook 'clojure-mode-hook #'paredit-mode))
 
 ;;;;;;;;;;;;;;;;
 ;;;; python ;;;;
 ;;;;;;;;;;;;;;;;
 
-(elpy-enable)
-;;(elpy-use-ipython)
+(use-package flycheck :ensure t
+  :commands (flycheck-mode)
+  :init (add-hook 'elpy-mode-hook 'flycheck-mode)
+  :config (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
 
-(add-hook 'elpy-mode-hook
-          (lambda ()
-            (define-key yas-minor-mode-map (kbd "<tab>") 'yas-expand)
-            (define-key yas-minor-mode-map (kbd "TAB") 'yas-expand)
-            (highlight-indentation-mode nil)
-            (add-to-list 'company-backends 'company-jedi)))
+(use-package py-autopep8 :ensure t
+  :init (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
 
-(when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
-
-(require 'py-autopep8)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+(use-package elpy :ensure t
+  :init (elpy-enable)
+  :config
+  (add-hook 'elpy-mode-hook
+            (lambda ()
+              ;;(highlight-indentation-mode nil)
+              (add-to-list 'company-backends 'company-jedi))))
 
 ;;;;;;;;;;;;;;;;;;;
 ;;;; julia/ESS ;;;;
