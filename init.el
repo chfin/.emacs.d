@@ -1,11 +1,5 @@
 (setq ad-redefinition-action 'accept)
 
-(defmacro measure-time (&rest body)
-  "Measure the time it takes to evaluate BODY."
-  `(let ((time (current-time)))
-     ,@body
-     (message "%.06f" (float-time (time-since time)))))
-
 ;;;;;;;;;;;;;;;;;;
 ;;;; packages ;;;;
 ;;;;;;;;;;;;;;;;;;
@@ -24,6 +18,7 @@
 
 (package-initialize)
 (package-install 'use-package)
+(require 'bind-key)
 
 ;;; currently installed:
 ;;;;;;;;;;;;;;;;;;;;;;;;
@@ -146,7 +141,7 @@
 
 (use-package undo-tree :ensure t
   :diminish undo-tree-mode
-  :init (global-undo-tree-mode))
+  :config (global-undo-tree-mode))
 
 ;;; ace-jump
 ;;;;;;;;;;;;
@@ -160,7 +155,7 @@
 
 (use-package projectile :ensure t
   :init
-  (projectile-global-mode)
+  (projectile-mode)
   :config
   (add-to-list 'projectile-globally-ignored-file-suffixes "~")
   (add-to-list 'projectile-globally-ignored-file-suffixes "#")
@@ -201,10 +196,6 @@
 (use-package ivy :ensure t
   :demand
   :diminish (ivy-mode . "")
-  :bind
-  (:map ivy-mode-map
-        ;;("C-'" . ivy-avy)
-        )
   :init
   (ivy-mode 1)
   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
@@ -217,7 +208,6 @@
         '((t   . ivy--regex-ignore-order))))
 
 (use-package swiper :ensure t
-  :demand
   :bind (:map ivy-mode-map
          ("C-s" . swiper)))
 
@@ -246,7 +236,7 @@
 (use-package yasnippet :ensure t
   ;;:disabled
   ;;:commands (yas-minor-mode)
-  :init
+  ;;:init
   ;;(add-hook 'prog-mode-hook #'yas-minor-mode)
   
   :config
@@ -286,6 +276,7 @@
             '(:with company-yasnippet))))
 
 (use-package company :ensure t
+  :diminish ""
   :init
   (global-company-mode)
   (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends)))
@@ -315,7 +306,6 @@
 (use-package paredit :ensure t
   :defer t
   :diminish "()"
-  :commands (my-enable-paredit-mode)
   
   :init
   (add-hook 'emacs-lisp-mode-hook       #'paredit-mode)
@@ -354,21 +344,24 @@
 ;;;;;;;;;;;;;
 
 (use-package extempore-mode :ensure t
+  :defer t
   :config
   (setq user-extempore-directory "~/dateien/src/extempore/")
-  (add-hook 'extempore-mode-hook        #'paredit-mode))
+  (add-hook 'extempore-mode-hook #'paredit-mode))
 
 ;;; common lisp
 ;;;;;;;;;;;;;;;
 
 (use-package slime :ensure t
+  :defer t
   :config
   (setq inferior-lisp-program "sbcl")
   (setq slime-contribs '(slime-fancy slime-quicklisp slime-company))
   (add-hook 'slime-mode-hook #'paredit-mode)
   (add-hook 'slime-repl-mode-hook #'paredit-mode))
 
-(use-package slime-company :ensure t)
+(use-package slime-company :ensure t
+  :after slime)
 
 ;;;; clojure
 ;;;;;;;;;;;;
@@ -378,6 +371,7 @@
   (eldoc-mode t))
 
 (use-package cider :ensure t
+  :defer t
   :config
   (setq cider-lein-command "~/.bin/lein")
   ;;(setq cider-repl-use-pretty-printing t)
@@ -390,28 +384,31 @@
 ;;;;;;;;;;
 
 (use-package flycheck :ensure t
-  :commands (flycheck-mode)
-  :init (add-hook 'elpy-mode-hook 'flycheck-mode)
-  :config (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
+  :after elpy)
 
 (use-package py-autopep8 :ensure t
+  :after elpy
   :init (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
 
-(use-package company-jedi :ensure t)
+(use-package company-jedi :ensure t
+  :after elpy)
 
 (use-package elpy :ensure t
-  :init (elpy-enable)
+  :commands (elpy-enable)
   :config
   (add-hook 'elpy-mode-hook
             (lambda ()
               ;;(highlight-indentation-mode nil)
-              (add-to-list 'company-backends 'company-jedi))))
+              (add-to-list 'company-backends 'company-jedi)))
+  (add-hook 'elpy-mode-hook 'flycheck-mode)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
 
 ;;; julia/ESS
 ;;;;;;;;;;;;;
 
 (use-package ess :ensure t
   ;;:defer t
+  :mode ("\\.jl\\'" . ess-julia-mode)
   :config
   (require 'ess-site))
 
@@ -419,8 +416,10 @@
 ;;;;;;;;;;;
 
 (use-package haskell-mode :ensure t
-  :config (add-hook 'haskell-mode-hook #'turn-on-haskell-indentation))
+  :defer t
+  :config (add-hook 'haskell-mode-hook #'haskell-indentation-mode))
 (use-package intero :ensure t
+  :after haskell-mode
   :diminish ">>="
   :config (add-hook 'haskell-mode-hook 'intero-mode))
 
@@ -429,22 +428,26 @@
 
 (use-package ensime
   :ensure t
-  :pin melpa-stable)
+  :pin melpa-stable
+  :defer t)
 
 ;;; javascript
 ;;;;;;;;;;;;;;
 
-(use-package js2-mode :ensure t)
+(use-package js2-mode :ensure t
+  :mode "\\.js\\'")
 
 ;;; prolog
 ;;;;;;;;;;
 
-(use-package prolog :ensure t)
+(use-package prolog :ensure t
+  :defer t)
 
 ;;; web-dev
 ;;;;;;;;;;;
 
-(use-package web-mode :ensure t)
+(use-package web-mode :ensure t
+  :defer t)
 
 ;;;;;;;;;;;;;;;;;;;;
 ;;;; text modes ;;;;
@@ -454,13 +457,16 @@
 ;;;;;;;;;
 
 (use-package tex :ensure auctex
+  :defer t
   :config
   ;;(add-hook 'TeX-mode-hook 'my-auctex-startup)
   (setq TeX-parse-self t))
 
-(use-package company-math :ensure t)
+(use-package company-math :ensure t
+  :after auctex)
 
 (use-package company-auctex :ensure t
+  :after auctex
   :config
   (add-hook 'TeX-mode-hook
             (lambda ()
@@ -470,6 +476,7 @@
             (company-auctex-init)))
 
 (use-package reftex :ensure t
+  :after auctex
   :config
   (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
   (setq reftex-plug-into-AUCTeX t)
@@ -479,6 +486,7 @@
 ;;;;;;;;;;;;
 
 (use-package org :ensure t
+  :mode ("\\.org\\'" . org-mode)
   :config
   (unless (boundp 'org-latex-classes)
     (setq org-latex-classes nil))
@@ -501,7 +509,8 @@
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
-(use-package ox-pandoc :ensure t)
+(use-package ox-pandoc :ensure t
+  :after org)
 
 (use-package org-ref :ensure t
   :after org
@@ -600,12 +609,14 @@
 ;;; markdown
 ;;;;;;;;;;;;
 
-(use-package markdown-mode :ensure t)
+(use-package markdown-mode :ensure t
+  :defer t)
 
 ;;; graphviz
 ;;;;;;;;;;;;
 
-(use-package graphviz-dot-mode :ensure t)
+(use-package graphviz-dot-mode :ensure t
+  :defer t)
 
 ;;; yaml
 ;;;;;;;;
