@@ -6,15 +6,20 @@
 
 (require 'package)
 
-(add-to-list 'package-archives 
-    '("marmalade" . "http://marmalade-repo.org/packages/"))
+;; (add-to-list 'package-archives 
+;;     '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives 
     '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives 
     '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 ;; for elpy
-(add-to-list 'package-archives
-             '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+;; (add-to-list 'package-archives
+;;              '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+
+(setq package-archive-priorities
+      '(("melpa-stable" . 10)
+        ("gnu"          . 5)
+        ("melpa"        . 0)))
 
 (package-initialize)
 (package-install 'use-package)
@@ -49,7 +54,7 @@
  '(org-agenda-files (quote ("~/Uni/master/notes.org")))
  '(package-selected-packages
    (quote
-    (company-math extempore-mode ace-window avy counsel swiper ox-pandoc org-ref web-mode use-package ensime intero smart-mode-line-powerline-theme zenburn-theme yaml-mode writeroom-mode undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit org monokai-theme markdown-mode magit js2-mode ido-vertical-mode haskell-mode graphviz-dot-mode flycheck flx-ido ess elpy ein company-quickhelp company-jedi company-auctex cider)))
+    (julia-repl company-lua lua-mode zenburn-theme yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit org-ref monokai-theme markdown-mode magit intero ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window)))
  '(safe-local-variable-values
    (quote
     ((org-ref-pdf-directory . "~/Uni/master/papers/")
@@ -101,7 +106,8 @@
   ;;(setq powerline-default-separator 'wave)
   (setq sml/theme 'respectful) ;; or powerline
   (sml/setup)
-  (set-face-attribute 'mode-line nil :box nil))
+  (set-face-attribute 'mode-line nil :box nil)
+  (set-face-attribute 'mode-line-inactive nil :box nil))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -279,7 +285,8 @@
   :diminish ""
   :init
   (global-company-mode)
-  (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends)))
+  (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
+  (setq company-dabbrev-downcase nil))
 
 (use-package company-quickhelp :ensure t
   :config
@@ -408,9 +415,21 @@
 
 (use-package ess :ensure t
   ;;:defer t
+  :init
+  (add-hook 'ess-julia-mode-hook
+            (lambda () (define-key ess-julia-mode-map (kbd "<tab>")
+                         'julia-latexsub-or-indent)))
   :mode ("\\.jl\\'" . ess-julia-mode)
   :config
   (require 'ess-site))
+
+(use-package julia-mode :ensure t
+  :pin melpa
+  :defer t)
+
+;; (use-package julia-repl :ensure t
+;;   :after julia-mode
+;;   :config (add-hook 'julia-mode-hook 'julia-repl-mode))
 
 ;;; haskell
 ;;;;;;;;;;;
@@ -448,6 +467,14 @@
 
 (use-package web-mode :ensure t
   :defer t)
+
+;;; lua
+;;;;;;;
+
+(use-package lua-mode :ensure t
+  :defer t)
+(use-package company-lua :ensure t
+  :after lua-mode)
 
 ;;;;;;;;;;;;;;;;;;;;
 ;;;; text modes ;;;;
@@ -495,13 +522,15 @@
                ;; list of notes
                '("notes"
                  "\\documentclass[a4paper,10pt,DIV=12]{scrartcl}\n
-\\usepackage[utf8]{inputenc}\n
-\\usepackage[T1]{fontenc}\n
-%\\usepackage{libertine}\n
-%\\renewcommand*\\oldstylenums[1]{{\\fontfamily{fxlj}\\selectfont #1}}\n
-%\\usepackage{lmodern}\n
-\\usepackage{hyperref}\n
-\\usepackage{color}"
+\\usepackage[utf8]{inputenc}
+\\usepackage[T1]{fontenc}
+%\\usepackage{libertine}
+%\\renewcommand*\\oldstylenums[1]{{\\fontfamily{fxlj}\\selectfont #1}}
+%\\usepackage{lmodern}
+\\usepackage{hyperref}
+\\usepackage{color}
+\\usepackage{rotate}
+\\usepackage{textcomp}"
 
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
@@ -509,8 +538,8 @@
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
-(use-package ox-pandoc :ensure t
-  :after org)
+;; (use-package ox-pandoc                  ; :ensure t
+;;   :after org)
 
 (use-package org-ref :ensure t
   :after org
@@ -623,6 +652,37 @@
 
 (use-package yaml-mode :ensure t)
 
+;;; lilypond
+;;;;;;;;;;;;
+
+(use-package lilypond-mode
+  :mode (("\\.ly$" . LilyPond-mode)
+         ("\\.ily$" . LilyPond-mode))
+  :commands (LilyPond-mode)
+  
+  :init
+  (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
+  
+  :config
+  (setq LilyPond-include-path "/home/chfin/dateien/src/openlilylib-snippets/")
+  (setq LilyPond-lilypond-command (concat "lilypond --include=" LilyPond-include-path))
+  (setq LilyPond-command-alist
+        `(("LilyPond" . (,(concat LilyPond-lilypond-command " %s") "%s" "%l" "View"))
+          ("2PS" . (,(concat LilyPond-lilypond-command " -f ps %s") "%s" "%p" "ViewPS"))
+          ("Book" . ("lilypond-book %x" "%x" "%l" "LaTeX"))
+          ("LaTeX" . ("latex '\\nonstopmode\\input %l'" "%l" "%d" "ViewDVI"))
+
+          ;; refreshes when kicked USR1
+          ("View" . (,(concat LilyPond-pdf-command " %f")))
+          ("ViewPDF" . (,(concat LilyPond-pdf-command " %f")))
+          ("ViewPS" . (,(concat LilyPond-ps-command " %p")))
+
+          ;; The following are refreshed in LilyPond-command:
+          ;; - current-midi depends on cursor position and
+          ("Midi" . (""))               ; 
+          ;; - all-midi depends on number of midi-score.
+          ("MidiAll" . ("")))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; special task modes ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -631,6 +691,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package ein :ensure t
+  :pin melpa
   :commands (ein:notebooklist-open ein:notebooklist-login))
 
 ;;; magit
