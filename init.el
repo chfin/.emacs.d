@@ -434,6 +434,7 @@
   :defer t
   :config (add-hook 'haskell-mode-hook #'haskell-indentation-mode))
 (use-package intero :ensure t
+  :pin melpa
   :after haskell-mode
   :diminish ">>="
   :config (add-hook 'haskell-mode-hook 'intero-mode))
@@ -451,6 +452,9 @@
 
 (use-package js2-mode :ensure t
   :mode "\\.js\\'")
+
+(use-package qml-mode :ensure t
+  :defer t)
 
 ;;; prolog
 ;;;;;;;;;;
@@ -635,7 +639,11 @@
 ;;;;;;;;;;;;
 
 (use-package markdown-mode :ensure t
-  :defer t)
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "pandoc -s"))
 
 ;;; graphviz
 ;;;;;;;;;;;;
@@ -702,6 +710,14 @@
 
 (use-package writeroom-mode :ensure t
   :commands (writeroom-mode global-writeroom-mode))
+
+;;; pdf-tools
+;;;;;;;;;;;;;
+
+;; (use-package pdf-tools :ensure t
+;;   :config
+;;   (pdf-tools-install)
+;;   (setq pdf-annot-activate-created-annotations t))
 
 ;;;;;;;;;;;;;;;;;;;;
 ;;;; cheatsheet ;;;;
