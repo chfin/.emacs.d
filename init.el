@@ -265,6 +265,8 @@
    ("M-<tab>" . yas-next-field-or-maybe-expand)
    ("M-S-<tab>" . yas-prev)))
 
+(use-package yasnippet-snippets :ensure t)
+
 ;;; auto-complete
 ;;;;;;;;;;;;;;;;;
 ;; disabled for company

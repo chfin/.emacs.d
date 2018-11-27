@@ -1,0 +1,72 @@
+# contributor: chfin <chfin@chfin.de>
+# name: beamer template
+# key: template-beamer
+# --
+%% -*- TeX-engine: xetex -*-
+\documentclass[presentation]{beamer}
+% \usepackage[utf8x]{inputenc}
+% \usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{polyglossia}
+% \setdefaultlanguage[spelling=new]{german}
+\setdefaultlanguage{english}
+\usepackage{csquotes}
+
+% \usetheme{default}
+\usetheme[progressbar=frametitle]{metropolis}
+\usefonttheme{professionalfonts}
+% \usepackage{charter}
+% \usepackage[scale=0.9]{tgheros}
+% \usepackage{fira}
+%\useoutertheme{miniframes}
+%\useinnertheme{circles}
+\setbeamertemplate{navigation symbols}{}%remove navigation symbols
+\setbeamertemplate{footline}[frame number]
+
+\usepackage{graphicx}
+% \usepackage[margin=10pt,font=small,labelfont=bf,labelsep=endash,format=plain]{caption}
+
+% \usepackage{tikz}
+% \usetikzlibrary{arrows}
+% \usetikzlibrary{arrows.meta}
+% \usepackage{pgfplots}
+% \usepackage{pgfplotstable}
+% \pgfplotsset{compat=1.15}
+% \usepgfplotslibrary{external}
+
+
+\author{Christoph Finkensiep\\\tiny{christoph.finkensiep@epfl.ch}}
+\date{}
+\title{${1:title}}
+
+\AtBeginSection[]
+{
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}[noframenumbering]{Overview}
+      \tableofcontents[currentsection]
+    \end{frame}
+  }
+}
+
+\begin{document}
+
+{
+  \setbeamertemplate{footline}{}
+
+  \maketitle
+  
+  \begin{frame}[noframenumbering]{Outline}
+    \tableofcontents
+  \end{frame}
+}
+
+\section{First Section}
+
+\begin{frame}{First Slide}
+  $0  
+\end{frame}
+
+\end{document}

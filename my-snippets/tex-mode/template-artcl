@@ -1,0 +1,58 @@
+# contributor: chfin <chfin@chfin.de>
+# name: article template
+# key: template-article
+# --
+\documentclass[a4paper,bibliography=totoc]{scrartcl}
+\usepackage[utf8]{inputenc}
+
+\usepackage[backend=biber,style=authoryear,url=false,isbn=false]{biblatex}
+\addbibresource{references.bib}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage[bitstream-charter]{mathdesign}
+% \DeclareMathAlphabet{\mycal}{OMS}{cmsy}{m}{n}
+\usepackage{charter}
+\usepackage{tgheros}
+\usepackage{microtype}
+\usepackage{ellipsis}
+
+\usepackage{amsmath}
+% \let\circledS\undefined % allows loading amssymb
+% \usepackage{amssymb}
+% \usepackage{mathtools}
+
+\usepackage{graphicx}
+% \usepackage[margin=10pt,font=small,labelfont=bf,labelsep=endash,format=plain]{caption}
+
+% \usepackage{tikz}
+% \usetikzlibrary{arrows}
+% \usetikzlibrary{arrows.meta}
+% \usepackage{pgfplots}
+% \usepackage{pgfplotstable}
+% \pgfplotsset{compat=1.15}
+% \usepgfplotslibrary{external}
+
+\title{${1:title}}
+% \subject{}
+% \subtitle{}
+\author{Christoph Finkensiep$2}
+% \publishers{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  ${3:tbd.}
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+\label{sec:intro}
+
+$0
+
+\printbibliography
+
+\end{document}
