@@ -513,15 +513,16 @@
 ;;;;;;;;;;;;
 
 (use-package org :ensure t
+  :defer t
   :mode ("\\.org\\'" . org-mode)
   :config
-  (unless (boundp 'org-latex-classes)
-    (setq org-latex-classes nil))
-
-  (add-to-list 'org-latex-classes
-               ;; list of notes
-               '("notes"
-                 "\\documentclass[a4paper,10pt,DIV=12]{scrartcl}\n
+  (progn
+    (unless (boundp 'org-latex-classes)
+      (setq org-latex-classes nil))
+    (add-to-list 'org-latex-classes
+                 ;; list of notes
+                 '("notes"
+                   "\\documentclass[a4paper,10pt,DIV=12]{scrartcl}\n
 \\usepackage[utf8]{inputenc}
 \\usepackage[T1]{fontenc}
 %\\usepackage{libertine}
@@ -531,23 +532,41 @@
 \\usepackage{color}
 \\usepackage{rotate}
 \\usepackage{textcomp}"
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((lilypond t)
+       (org t)))
+    (setq org-confirm-babel-evaluate nil)
+    (setq org-latex-pdf-process
+          '("%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
+            "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
+            "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+    ))
 
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+(use-package ob-lilypond
+  :after org)
 
 ;; (use-package ox-pandoc                  ; :ensure t
 ;;   :after org)
 
+(use-package helm-bibtex :ensure t
+  :pin melpa
+  :defer t)
+
 (use-package org-ref :ensure t
+  :pin melpa
   :after org
   :init
   (setq
-   ;;org-ref-bibliography-notes "~/.emacs.d/zotero.org"
-   ;;org-ref-default-bibliography '("~/.emacs.d/zotero.bib")
-   ;;bibtex-completion-bibliography "~/Uni/master/notes/bibliography.org"
+   org-ref-bibliography-notes "~/.emacs.d/zotero.org"
+   org-ref-default-bibliography '("~/.emacs.d/zotero.bib")
+   bibtex-completion-bibliography "~/.emacs.d/zotero.bib"
+   bibtex-completion-pdf-field "file"
    )
   :config
   ;; use ivy
@@ -556,84 +575,89 @@
   ;;; patches to org-ref and helm-bibtex for .dir-locals.el
   
   ;; defined in org-ref/org-ref-core.el
-  (setq org-ref-notes-function
-        (lambda (thekey)
-          (let* ((results (org-ref-get-bibtex-key-and-file thekey))
-                 (key (car results))
-                 (bibfile (cdr results))
-                 (notesfile org-ref-bibliography-notes))
-            (save-excursion
-              (with-temp-buffer
-                (let ((org-ref-bibliography-notes notesfile))
-                  (insert-file-contents bibfile)
-                  (bibtex-set-dialect (parsebib-find-bibtex-dialect) t)
-                  (bibtex-search-entry key)
-                  (org-ref-open-bibtex-notes)))))))
+  ;; (setq org-ref-notes-function
+  ;;       (lambda (thekey)
+  ;;         (let* ((results (org-ref-get-bibtex-key-and-file thekey))
+  ;;                (key (car results))
+  ;;                (bibfile (cdr results))
+  ;;                (notesfile org-ref-bibliography-notes))
+  ;;           (save-excursion
+  ;;             (with-temp-buffer
+  ;;               (let ((org-ref-bibliography-notes notesfile))
+  ;;                 (insert-file-contents bibfile)
+  ;;                 (bibtex-set-dialect (parsebib-find-bibtex-dialect) t)
+  ;;                 (bibtex-search-entry key)
+  ;;                 (org-ref-open-bibtex-notes)))))))
   
-  ;; from helm-bibtex/bibtex-completion.el
-  (defun bibtex-completion-get-entry1 (entry-key &optional do-not-find-pdf)
-    (let ((bcb bibtex-completion-bibliography))
-      (with-temp-buffer
-        (let ((bibtex-completion-bibliography bcb))
-          (mapc #'insert-file-contents
-                (bibtex-completion-normalize-bibliography 'bibtex)))
-        (goto-char (point-min))
-        (if (re-search-forward (concat "^[ \t]*@\\(" parsebib--bibtex-identifier
-                                       "\\)[[:space:]]*[\(\{][[:space:]]*"
-                                       (regexp-quote entry-key) "[[:space:]]*,")
-                               nil t)
-            (let ((entry-type (match-string 1)))
-              (reverse (bibtex-completion-prepare-entry
-                        (parsebib-read-entry entry-type) nil do-not-find-pdf)))
-          (progn
-            (display-warning :warning (concat "Bibtex-completion couldn't find entry with key \"" entry-key "\"."))
-            nil)))))
+  ;; ;; from helm-bibtex/bibtex-completion.el
+  ;; (defun bibtex-completion-get-entry1 (entry-key &optional do-not-find-pdf)
+  ;;   (let ((bcb bibtex-completion-bibliography))
+  ;;     (with-temp-buffer
+  ;;       (let ((bibtex-completion-bibliography bcb))
+  ;;         (mapc #'insert-file-contents
+  ;;               (bibtex-completion-normalize-bibliography 'bibtex)))
+  ;;       (goto-char (point-min))
+  ;;       (if (re-search-forward (concat "^[ \t]*@\\(" parsebib--bibtex-identifier
+  ;;                                      "\\)[[:space:]]*[\(\{][[:space:]]*"
+  ;;                                      (regexp-quote entry-key) "[[:space:]]*,")
+  ;;                              nil t)
+  ;;           (let ((entry-type (match-string 1)))
+  ;;             (reverse (bibtex-completion-prepare-entry
+  ;;                       (parsebib-read-entry entry-type) nil do-not-find-pdf)))
+  ;;         (progn
+  ;;           (display-warning :warning (concat "Bibtex-completion couldn't find entry with key \"" entry-key "\"."))
+  ;;           nil)))))
   
-  ;; from helm-bibtex/helm-bibtex.el
-  (defun helm-bibtex (&optional arg)
-    (interactive "P")
-    (when arg
-      (bibtex-completion-clear-cache))
-    (helm :sources (list helm-source-bibtex helm-source-fallback-options)
-          :full-frame helm-bibtex-full-frame
-          :buffer "*helm bibtex*"
-          :candidate-number-limit 500
-          :bib bibtex-completion-bibliography))
+  ;; ;; from helm-bibtex/helm-bibtex.el
+  ;; (defun helm-bibtex (&optional arg)
+  ;;   (interactive "P")
+  ;;   (when arg
+  ;;     (bibtex-completion-clear-cache))
+  ;;   (helm :sources (list helm-source-bibtex helm-source-fallback-options)
+  ;;         :full-frame helm-bibtex-full-frame
+  ;;         :buffer "*helm bibtex*"
+  ;;         :candidate-number-limit 500
+  ;;         :bib bibtex-completion-bibliography))
   
-  ;; from helm-bibtex/bibtex-completion.el
-  (defun bibtex-completion-candidates ()
-    (let ((bibtex-completion-bibliography (or helm-bib bibtex-completion-bibliography)))
-      (let ((files (nreverse (bibtex-completion-normalize-bibliography 'bibtex)))
-            reparsed-files)
-        (message "bibtex-completion-candidates: bibfile: %s" bibtex-completion-bibliography)
-        ;; Open each bibliography file in a temporary buffer,
-        ;; check hash of bibliography and reparse if necessary:
-        (cl-loop
-         for file in files
-         do
-         (with-temp-buffer
-           (insert-file-contents file)
-           (let ((bibliography-hash (secure-hash 'sha256 (current-buffer))))
-             (unless (string= (cadr (assoc file bibtex-completion-cache))
-                              bibliography-hash)
-               (bibtex-completion-clear-cache (list file))
-               (message "Parsing bibliography file %s ..." file)
-               (push (-cons* file
-                             bibliography-hash
-                             (bibtex-completion-parse-bibliography))
-                     bibtex-completion-cache)
-               ;; Mark file as reparsed.
-               ;; This will be useful to resolve cross-references:
-               (push file reparsed-files)))))
-        ;; If some files were reparsed, resolve cross-references:
-        (when reparsed-files
-          (message "Resolving cross-references ...")
-          (bibtex-completion-resolve-crossrefs files reparsed-files))
-        ;; Finally return the list of candidates:
-        (nreverse
-         (cl-loop
-          for file in files
-          append (cddr (assoc file bibtex-completion-cache))))))))
+  ;; ;; from helm-bibtex/bibtex-completion.el
+  ;; (defun bibtex-completion-candidates ()
+  ;;   (let ((bibtex-completion-bibliography (or helm-bib bibtex-completion-bibliography)))
+  ;;     (let ((files (nreverse (bibtex-completion-normalize-bibliography 'bibtex)))
+  ;;           reparsed-files)
+  ;;       (message "bibtex-completion-candidates: bibfile: %s" bibtex-completion-bibliography)
+  ;;       ;; Open each bibliography file in a temporary buffer,
+  ;;       ;; check hash of bibliography and reparse if necessary:
+  ;;       (cl-loop
+  ;;        for file in files
+  ;;        do
+  ;;        (with-temp-buffer
+  ;;          (insert-file-contents file)
+  ;;          (let ((bibliography-hash (secure-hash 'sha256 (current-buffer))))
+  ;;            (unless (string= (cadr (assoc file bibtex-completion-cache))
+  ;;                             bibliography-hash)
+  ;;              (bibtex-completion-clear-cache (list file))
+  ;;              (message "Parsing bibliography file %s ..." file)
+  ;;              (push (-cons* file
+  ;;                            bibliography-hash
+  ;;                            (bibtex-completion-parse-bibliography))
+  ;;                    bibtex-completion-cache)
+  ;;              ;; Mark file as reparsed.
+  ;;              ;; This will be useful to resolve cross-references:
+  ;;              (push file reparsed-files)))))
+  ;;       ;; If some files were reparsed, resolve cross-references:
+  ;;       (when reparsed-files
+  ;;         (message "Resolving cross-references ...")
+  ;;         (bibtex-completion-resolve-crossrefs files reparsed-files))
+  ;;       ;; Finally return the list of candidates:
+  ;;       (nreverse
+  ;;        (cl-loop
+  ;;         for file in files
+  ;;         append (cddr (assoc file bibtex-completion-cache))))))))
+  )
+
+(use-package zotxt :ensure t
+  :pin melpa
+  :after org)
 
 ;;; markdown
 ;;;;;;;;;;;;
