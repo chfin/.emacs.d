@@ -38,40 +38,29 @@
  ;; If there is more than one, they won't work right.
  '(Linum-format "%7i ")
  '(TeX-PDF-mode t)
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-term-color-vector
-   [unspecified "#110F13" "#b13120" "#719f34" "#ceae3e" "#7c9fc9" "#7868b5" "#009090" "#F4EAD5"] t)
  '(column-number-mode t)
  '(custom-safe-themes
    (quote
-    ("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "2997ecd20f07b99259bddba648555335ffb7a7d908d8d3e6660ecbec415f6b95" default)))
+    ("ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "2997ecd20f07b99259bddba648555335ffb7a7d908d8d3e6660ecbec415f6b95" default)))
  '(fci-rule-character-color "#202020")
  '(fringe-mode nil nil (fringe))
  '(indicate-empty-lines t)
  '(inhibit-startup-screen t)
  '(linum-format " %7i ")
- '(org-agenda-files (quote ("~/Uni/master/notes.org")))
+ '(org-agenda-files
+   (quote
+    ("~/Uni/phd/notes/graph_grammars.org" "~/Uni/master/notes.org")))
  '(package-selected-packages
    (quote
-    (julia-repl company-lua lua-mode zenburn-theme yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit org-ref monokai-theme markdown-mode magit intero ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window)))
+    (yasnippet-snippets company-qml qml-mode zenburn-theme julia-repl org zotxt auctex js2-mode haskell-mode flycheck slime company yasnippet avy swiper ivy company-lua lua-mode yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit org-ref monokai-theme markdown-mode magit intero ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window)))
  '(safe-local-variable-values
    (quote
-    ((org-ref-pdf-directory . "~/Uni/master/papers/")
-     (bibtex-completion-notes-path . "~/Uni/master/notes/bibliography.org")
-     (bibtex-completion-bibliography . "~/Uni/master/notes/bibliography.org")
-     (org-ref-bibliography-notes . "~/Uni/master/notes/bibliography.org")
-     (org-ref-default-bibliography "~/Uni/master/notes/bibliography.bib")
-     (reftex-default-bibliography "~/Uni/master/notes/bibliography.bib")
-     (bibtex-completion-library-path . "~/Uni/master/papers")
-     (org-ref-pdf-directory "~/Uni/master/papers/")
+    ((intero-targets "musicology:lib" "musicology:exe:musicology-exe" "musicology:test:musicology-test" "musicology:bench:musicology-bench")
      (eval yas-activate-extra-mode
            (quote overtone-mode))
      (eval visual-line-mode t))))
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
- '(term-default-bg-color "#fdf6e3")
- '(term-default-fg-color "#657b83")
  '(tool-bar-mode nil)
  '(writeroom-width 100))
 (custom-set-faces
@@ -79,8 +68,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:family "DejaVu Sans Mono" :foundry "PfEd" :slant normal :weight normal :height 100 :width normal)))))
 (put 'scroll-left 'disabled nil)
+
+;; '(term-default-bg-color "#fdf6e3")
+;; '(term-default-fg-color "#657b83")
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; customization ;;;;
@@ -93,7 +85,8 @@
   :defer t)
 (use-package solarized-theme :ensure t
   :defer t)
-(use-package zenburn-theme :ensure t)
+(use-package zenburn-theme :ensure t
+  :pin melpa)
 
 ;;(load-theme 'zenburn t)
 
@@ -415,23 +408,24 @@
 ;;; julia/ESS
 ;;;;;;;;;;;;;
 
-(use-package ess :ensure t
-  ;;:defer t
-  :init
-  (add-hook 'ess-julia-mode-hook
-            (lambda () (define-key ess-julia-mode-map (kbd "<tab>")
-                         'julia-latexsub-or-indent)))
-  :mode ("\\.jl\\'" . ess-julia-mode)
-  :config
-  (require 'ess-site))
+;; (use-package ess :ensure t
+;;   ;;:defer t
+;;   :init
+;;   (add-hook 'ess-julia-mode-hook
+;;             (lambda () (define-key ess-julia-mode-map (kbd "<tab>")
+;;                          'julia-latexsub-or-indent)))
+;;   :mode ("\\.jl\\'" . ess-julia-mode)
+;;   :config
+;;   (require 'ess-site))
 
 (use-package julia-mode :ensure t
   :pin melpa
   :defer t)
 
-;; (use-package julia-repl :ensure t
-;;   :after julia-mode
-;;   :config (add-hook 'julia-mode-hook 'julia-repl-mode))
+(use-package julia-repl :ensure t
+  :pin melpa
+  :after julia-mode
+  :config (add-hook 'julia-mode-hook 'julia-repl-mode))
 
 ;;; haskell
 ;;;;;;;;;;;
