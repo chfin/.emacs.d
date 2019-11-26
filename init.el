@@ -52,10 +52,16 @@
     ("~/Uni/phd/notes/graph_grammars.org" "~/Uni/master/notes.org")))
  '(package-selected-packages
    (quote
-    (yasnippet-snippets company-qml qml-mode zenburn-theme julia-repl org zotxt auctex js2-mode haskell-mode flycheck slime company yasnippet avy swiper ivy company-lua lua-mode yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit org-ref monokai-theme markdown-mode magit intero ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window)))
+    (format-all lsp-haskell lsp-mode nix-haskell-mode dante psc-ide purescript-mode org-ref helm-bibtex intero pandoc-mode yasnippet-snippets company-qml qml-mode zenburn-theme julia-repl zotxt auctex js2-mode haskell-mode flycheck slime company yasnippet avy swiper ivy company-lua lua-mode yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit monokai-theme markdown-mode magit ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window)))
  '(safe-local-variable-values
    (quote
-    ((intero-targets "musicology:lib" "musicology:exe:musicology-exe" "musicology:test:musicology-test" "musicology:bench:musicology-bench")
+    ((cider-figwheel-main-default-options . "dev")
+     (cider-figwheel-main-default-options . ":cider")
+     (cider-default-cljs-repl . figwheel-main)
+     (cider-clojure-cli-global-options . "-A:cider")
+     (cider-clojure-cli-global-options . -A:fig)
+     (TeX-command-extra-options . "-shell-escape")
+     (intero-targets "musicology:lib" "musicology:exe:musicology-exe" "musicology:test:musicology-test" "musicology:bench:musicology-bench")
      (eval yas-activate-extra-mode
            (quote overtone-mode))
      (eval visual-line-mode t))))
@@ -63,12 +69,12 @@
  '(show-paren-mode t)
  '(tool-bar-mode nil)
  '(writeroom-width 100))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "DejaVu Sans Mono" :foundry "PfEd" :slant normal :weight normal :height 100 :width normal)))))
+;; (custom-set-faces
+;;  ;; custom-set-faces was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(default ((t (:family "DejaVu Sans Mono" :foundry "PfEd" :slant normal :weight normal :height 110 :width normal)))))
 (put 'scroll-left 'disabled nil)
 
 ;; '(term-default-bg-color "#fdf6e3")
@@ -77,6 +83,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; customization ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; font
+;;;;;;;;
+
+(set-face-font 'default "DejaVu Sans Mono-16")
+;; (set-face-attribute 'default nil :height 170)
 
 ;;; themes
 ;;;;;;;;;;
@@ -267,6 +279,9 @@
 (use-package auto-complete :ensure t
   :disabled)
 
+;;; code formatting
+(use-package format-all :ensure t)
+
 ;;; company
 ;;;;;;;;;;;
 
@@ -341,6 +356,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; programming modes ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; general: language server protocol (lsp)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; (use-package lsp-mode :ensure t
+;;   :pin melpa
+;;   :config (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
 ;;; extempore
 ;;;;;;;;;;;;;
@@ -432,12 +454,31 @@
 
 (use-package haskell-mode :ensure t
   :defer t
-  :config (add-hook 'haskell-mode-hook #'haskell-indentation-mode))
+  :config
+  (add-hook 'haskell-mode-hook #'haskell-indentation-mode))
 (use-package intero :ensure t
   :pin melpa
   :after haskell-mode
   :diminish ">>="
-  :config (add-hook 'haskell-mode-hook 'intero-mode))
+  :config (add-hook 'haskell-mode-hook 'intero-mode)
+  )
+(use-package nix-haskell-mode :ensure t
+  :after haskell-mode)
+;; (use-package lsp-haskell :ensure t
+;;   :after haskell-mode)
+
+(use-package purescript-mode :ensure t
+  :defer t)
+(use-package psc-ide :ensure t
+  :defer t
+  :after purescript-mode
+  :diminish "<≡>"
+  :init (add-hook 'purescript-mode-hook
+                  (lambda ()
+                    (psc-ide-mode)
+                    (company-mode)
+                    (flycheck-mode)
+                    (turn-on-purescript-indentation))))
 
 ;;; scala
 ;;;;;;;;;
@@ -662,12 +703,17 @@
 ;;; markdown
 ;;;;;;;;;;;;
 
+(use-package pandoc-mode :ensure t
+  :defer t)
+
 (use-package markdown-mode :ensure t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "pandoc -s"))
+  :init
+  (setq markdown-command "pandoc -s")
+  (add-hook 'markdown-mode-hook 'pandoc-mode))
 
 ;;; graphviz
 ;;;;;;;;;;;;
@@ -751,3 +797,10 @@
   (interactive)
   (find-file-other-window "~/.emacs.d/cheatsheet"))
 (put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
