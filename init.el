@@ -44,15 +44,18 @@
     ("ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "2997ecd20f07b99259bddba648555335ffb7a7d908d8d3e6660ecbec415f6b95" default)))
  '(fci-rule-character-color "#202020")
  '(fringe-mode nil nil (fringe))
+ '(haskell-interactive-popup-errors nil)
+ '(haskell-process-log t)
  '(indicate-empty-lines t)
  '(inhibit-startup-screen t)
  '(linum-format " %7i ")
+ '(lsp-ui-doc-position (quote top))
  '(org-agenda-files
    (quote
     ("~/Uni/phd/notes/graph_grammars.org" "~/Uni/master/notes.org")))
  '(package-selected-packages
    (quote
-    (format-all lsp-haskell lsp-mode nix-haskell-mode dante psc-ide purescript-mode org-ref helm-bibtex intero pandoc-mode yasnippet-snippets company-qml qml-mode zenburn-theme julia-repl zotxt auctex js2-mode haskell-mode flycheck slime company yasnippet avy swiper ivy company-lua lua-mode yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit monokai-theme markdown-mode magit ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window)))
+    (eglot company-box lsp-ui company-lsp toml-mode flycheck-rust cargo rust-mode format-all lsp-haskell lsp-mode nix-haskell-mode dante psc-ide purescript-mode org-ref helm-bibtex intero pandoc-mode yasnippet-snippets company-qml qml-mode zenburn-theme julia-repl zotxt auctex js2-mode haskell-mode flycheck slime company yasnippet avy swiper ivy company-lua lua-mode yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit monokai-theme markdown-mode magit ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window)))
  '(safe-local-variable-values
    (quote
     ((cider-figwheel-main-default-options . "dev")
@@ -67,6 +70,8 @@
      (eval visual-line-mode t))))
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
+ '(split-height-threshold nil)
+ '(split-width-threshold 200)
  '(tool-bar-mode nil)
  '(writeroom-width 100))
 ;; (custom-set-faces
@@ -142,6 +147,9 @@
 
 ;; delete-selection-mode
 (delete-selection-mode 1)
+
+;; split windows reasonably
+()
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; useful general packages ;;;;
@@ -296,11 +304,15 @@
   :init
   (global-company-mode)
   (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
-  (setq company-dabbrev-downcase nil))
+  (setq company-dabbrev-downcase nil)
+  :config (setq company-idle-delay 0.3))
 
 (use-package company-quickhelp :ensure t
   :config
   (company-quickhelp-mode t))
+
+;; (use-package company-box :ensure t
+;;   :hook (company-mode . company-box-mode))
 
 ;;; paredit
 ;;;;;;;;;;;
@@ -360,9 +372,28 @@
 ;;; general: language server protocol (lsp)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; (use-package lsp-mode :ensure t
-;;   :pin melpa
-;;   :config (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+(use-package lsp-mode :ensure t
+  :pin melpa
+  :commands lsp
+  :config
+  (setq lsp-prefer-flymake nil))
+
+(use-package lsp-ui :ensure t
+  :pin melpa
+  :hook
+  (lsp-mode . lsp-ui-mode)
+  (lsp-ui-mode . (lambda ()
+                   (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+                   (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references))))
+
+(use-package company-lsp :ensure t
+  :requires company
+  :after lsp-mode
+  :config
+  (push 'company-lsp company-backends)
+  (setq company-transformers nil
+        company-lsp-async t
+        company-lsp-cache-candidates nil))
 
 ;;; extempore
 ;;;;;;;;;;;;;
@@ -447,25 +478,37 @@
 (use-package julia-repl :ensure t
   :pin melpa
   :after julia-mode
-  :config (add-hook 'julia-mode-hook 'julia-repl-mode))
+  :hook (julia-mode . julia-repl-mode))
+
+;; (require 'julia-mode)
 
 ;;; haskell
 ;;;;;;;;;;;
 
 (use-package haskell-mode :ensure t
-  :defer t
-  :config
-  (add-hook 'haskell-mode-hook #'haskell-indentation-mode))
-(use-package intero :ensure t
   :pin melpa
-  :after haskell-mode
-  :diminish ">>="
-  :config (add-hook 'haskell-mode-hook 'intero-mode)
-  )
+  :defer t
+  :hook
+  (haskell-mode . haskell-indentation-mode)
+  (haskell-mode . interactive-haskell-mode)
+  (haskell-mode . lsp))
+
+;; (use-package intero :ensure t
+;;   :pin melpa
+;;   :after haskell-mode
+;;   :diminish ">>="
+;;   :config (add-hook 'haskell-mode-hook 'intero-mode)
+;;   )
 (use-package nix-haskell-mode :ensure t
   :after haskell-mode)
-;; (use-package lsp-haskell :ensure t
-;;   :after haskell-mode)
+(use-package lsp-haskell :ensure t
+  :config
+  ;; (setq lsp-haskell-process-path-hie "ghcide")
+  ;; (setq lsp-haskell-process-args-hie '())
+  )
+
+;;; purescript
+;;;;;;;;;;;;;;
 
 (use-package purescript-mode :ensure t
   :defer t)
@@ -479,6 +522,18 @@
                     (company-mode)
                     (flycheck-mode)
                     (turn-on-purescript-indentation))))
+
+;;; rust
+;;;;;;;;
+
+(use-package rust-mode :ensure t
+  :hook (rust-mode . lsp))
+
+(use-package cargo :ensure t
+  :hook (rust-mode . cargo-minor-mode))
+
+(use-package flycheck-rust :ensure t
+  :hook (flycheck-mode . flycheck-rust-setup))
 
 ;;; scala
 ;;;;;;;;;
@@ -725,6 +780,11 @@
 ;;;;;;;;
 
 (use-package yaml-mode :ensure t)
+
+;;; toml
+;;;;;;;;
+
+(use-package toml-mode :ensure t)
 
 ;;; lilypond
 ;;;;;;;;;;;;
