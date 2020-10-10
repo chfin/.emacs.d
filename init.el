@@ -1,3 +1,4 @@
+(load "~/.emacs.d/machine.el")
 (setq ad-redefinition-action 'accept)
 
 ;;;;;;;;;;;;;;;;;;
@@ -92,7 +93,10 @@
 ;;; font
 ;;;;;;;;
 
-(set-face-font 'default "DejaVu Sans Mono-16")
+(set-face-font 'default
+               (cond
+                ((equal machine-name :chfin-dcml) "DejaVu Sans Mono-16")
+                ((equal machine-name :chfin-tp)   "DejaVu Sans Mono-10")))
 ;; (set-face-attribute 'default nil :height 170)
 
 (defun toggle-show-trailing-whitespace ()
