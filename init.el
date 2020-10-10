@@ -6,12 +6,12 @@
 
 (require 'package)
 
-;; (add-to-list 'package-archives 
+;; (add-to-list 'package-archives
 ;;     '("marmalade" . "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives 
-    '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives 
-    '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 ;; for elpy
 ;; (add-to-list 'package-archives
 ;;              '("elpy" . "http://jorgenschaefer.github.io/packages/"))
@@ -40,8 +40,7 @@
  '(TeX-PDF-mode t)
  '(column-number-mode t)
  '(custom-safe-themes
-   (quote
-    ("ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "2997ecd20f07b99259bddba648555335ffb7a7d908d8d3e6660ecbec415f6b95" default)))
+   '("f2c35f8562f6a1e5b3f4c543d5ff8f24100fae1da29aeb1864bbc17758f52b70" "f56eb33cd9f1e49c5df0080a3e8a292e83890a61a89bceeaa481a5f183e8e3ef" "816bacf37139d6204b761fea0d25f7f2f43b94affa14aa4598bce46157c160c2" "76c5b2592c62f6b48923c00f97f74bcb7ddb741618283bdb2be35f3c0e1030e3" "7aaee3a00f6eb16836f5b28bdccde9e1079654060d26ce4b8f49b56689c51904" "f3455b91943e9664af7998cc2c458cfc17e674b6443891f519266e5b3c51799d" "ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "2997ecd20f07b99259bddba648555335ffb7a7d908d8d3e6660ecbec415f6b95" default))
  '(fci-rule-character-color "#202020")
  '(fringe-mode nil nil (fringe))
  '(haskell-interactive-popup-errors nil)
@@ -49,29 +48,30 @@
  '(indicate-empty-lines t)
  '(inhibit-startup-screen t)
  '(linum-format " %7i ")
- '(lsp-ui-doc-position (quote top))
+ '(lsp-ui-doc-position 'top)
+ '(lsp-ui-sideline-ignore-duplicate t)
+ '(lsp-ui-sideline-show-symbol nil)
  '(org-agenda-files
-   (quote
-    ("~/Uni/phd/notes/graph_grammars.org" "~/Uni/master/notes.org")))
+   '("~/Uni/phd/notes/graph_grammars.org" "~/Uni/master/notes.org"))
  '(package-selected-packages
-   (quote
-    (eglot company-box lsp-ui company-lsp toml-mode flycheck-rust cargo rust-mode format-all lsp-haskell lsp-mode nix-haskell-mode dante psc-ide purescript-mode org-ref helm-bibtex intero pandoc-mode yasnippet-snippets company-qml qml-mode zenburn-theme julia-repl zotxt auctex js2-mode haskell-mode flycheck slime company yasnippet avy swiper ivy company-lua lua-mode yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit monokai-theme markdown-mode magit ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window)))
+   '(paredit-everywhere diminish eglot company-box lsp-ui company-lsp toml-mode flycheck-rust cargo rust-mode format-all lsp-haskell lsp-mode nix-haskell-mode dante psc-ide purescript-mode org-ref helm-bibtex intero pandoc-mode yasnippet-snippets company-qml qml-mode zenburn-theme julia-repl zotxt auctex js2-mode haskell-mode flycheck slime company yasnippet avy swiper ivy company-lua lua-mode yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit monokai-theme markdown-mode magit ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window))
  '(safe-local-variable-values
-   (quote
-    ((cider-figwheel-main-default-options . "dev")
+   '((haskell-process-type . stack-ghci)
+     (cider-clojure-cli-global-options . "-A:fig")
+     (enable-format-all . t)
+     (cider-figwheel-main-default-options . "dev")
      (cider-figwheel-main-default-options . ":cider")
      (cider-default-cljs-repl . figwheel-main)
      (cider-clojure-cli-global-options . "-A:cider")
      (cider-clojure-cli-global-options . -A:fig)
      (TeX-command-extra-options . "-shell-escape")
      (intero-targets "musicology:lib" "musicology:exe:musicology-exe" "musicology:test:musicology-test" "musicology:bench:musicology-bench")
-     (eval yas-activate-extra-mode
-           (quote overtone-mode))
-     (eval visual-line-mode t))))
+     (eval yas-activate-extra-mode 'overtone-mode)
+     (eval visual-line-mode t)))
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
  '(split-height-threshold nil)
- '(split-width-threshold 200)
+ '(split-width-threshold 190)
  '(tool-bar-mode nil)
  '(writeroom-width 100))
 ;; (custom-set-faces
@@ -95,17 +95,22 @@
 (set-face-font 'default "DejaVu Sans Mono-16")
 ;; (set-face-attribute 'default nil :height 170)
 
+(defun toggle-show-trailing-whitespace ()
+  (interactive)
+  (setq show-trailing-whitespace (not show-trailing-whitespace)))
+; (setq-default show-trailing-whitespace t)
+
 ;;; themes
 ;;;;;;;;;;
 
 (use-package monokai-theme :ensure t
-  :defer t)
+	     :defer t)
 (use-package solarized-theme :ensure t
   :defer t)
 (use-package zenburn-theme :ensure t
   :pin melpa)
 
-;;(load-theme 'zenburn t)
+(load-theme 'zenburn)
 
 ;;; smart-mode-line
 ;;;;;;;;;;;;;;;;;;;
@@ -126,34 +131,57 @@
 
 ;; put backups in a meaningful place
 (setq
-   backup-by-copying-when-linked t  ; don't clobber symlinks
-   backup-directory-alist
-    '(("" . "~/.emacs.d/backups"))    ; don't litter my fs tree
-   delete-old-versions t
-   kept-new-versions 6
-   kept-old-versions 2
-   version-control t                ; use versioned backups
-   vc-make-backup-files t
-   backup-enable-predicate
-   (lambda (name)
-     (and (normal-backup-enable-predicate name)
-          (not
-           (let ((method (file-remote-p name 'method)))
-             (when (stringp method)
-               (member method '("su" "sudo"))))))))
+ backup-by-copying-when-linked t  ; don't clobber symlinks
+ backup-directory-alist
+ '(("" . "~/.emacs.d/backups"))    ; don't litter my fs tree
+ delete-old-versions t
+ kept-new-versions 6
+ kept-old-versions 2
+ version-control t                ; use versioned backups
+ vc-make-backup-files t
+ backup-enable-predicate
+ (lambda (name)
+   (and (normal-backup-enable-predicate name)
+        (not
+         (let ((method (file-remote-p name 'method)))
+           (when (stringp method)
+             (member method '("su" "sudo"))))))))
 
-;;use tabs
+
+
+;; use tabs
 (setq-default indent-tabs-mode nil)
 
 ;; delete-selection-mode
 (delete-selection-mode 1)
 
-;; split windows reasonably
-()
+;; key bindings
+(global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "s-b") 'ivy-switch-buffer)
+(global-set-key (kbd "s-k") 'ido-kill-buffer)
+
+
+;; deprecate key bindings
+(setq lexical-binding t)
+(defun warn-key (msg)
+  (lambda ()
+    (interactive)
+    (message msg)))
+(setq lexical-binding nil)
+(global-set-key (kbd "C-x o") (warn-key "deprecated, use M-o or s-o instead."))
+(global-set-key (kbd "C-x b") (warn-key "deprecated, use s-b instead."))
+(global-set-key (kbd "C-x k") (warn-key "deprecated, use s-k instead."))
+(global-set-key (kbd "C-z") nil)
+(global-set-key (kbd "C-x C-z") nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; useful general packages ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; diminish
+;;;;;;;;;;;;
+
+(use-package diminish :ensure t)
 
 ;;; undo-tree
 ;;;;;;;;;;;;;
@@ -228,13 +256,13 @@
 
 (use-package swiper :ensure t
   :bind (:map ivy-mode-map
-         ("C-s" . swiper)))
+              ("C-s" . swiper)))
 
 (use-package counsel :ensure t
   :demand
   :bind (:map ivy-mode-map
-         ("M-x" . counsel-M-x)
-         ("<f1> u" . counsel-unicode-char))
+              ("M-x" . counsel-M-x)
+              ("<f1> u" . counsel-unicode-char))
   :config
   (setq counsel-find-file-ignore-regexp "\\(?:\\`[#.]\\)\\|\\(?:[#~]\\'\\)\\|\\(\\`\\.\\)"))
 
@@ -257,26 +285,26 @@
   ;;:commands (yas-minor-mode)
   ;;:init
   ;;(add-hook 'prog-mode-hook #'yas-minor-mode)
-  
+
   :config
   (yas-global-mode 1)
   (setq yas-snippet-dirs (append yas-snippet-dirs '("~/.emacs.d/my-snippets")))
   (yas-reload-all)
-  
+
   :bind
   ;; rebind everything to M-<tab> / M-S-<tab>
   (:map yas-minor-mode-map
-   ("<tab>" . nil)
-   ("TAB" . nil)
-   ("M-TAB" . yas-expand)
-   :map yas-keymap
-   ("<tab>" . nil)
-   ("TAB" . nil)
-   ("S-<tab>" . nil)
-   ("S-TAB" . nil)
-   ("<backtab>" . nil)
-   ("M-<tab>" . yas-next-field-or-maybe-expand)
-   ("M-S-<tab>" . yas-prev)))
+        ("<tab>" . nil)
+        ("TAB" . nil)
+        ("M-TAB" . yas-expand)
+        :map yas-keymap
+        ("<tab>" . nil)
+        ("TAB" . nil)
+        ("S-<tab>" . nil)
+        ("S-TAB" . nil)
+        ("<backtab>" . nil)
+        ("M-<tab>" . yas-next-field-or-maybe-expand)
+        ("M-S-<tab>" . yas-prev)))
 
 (use-package yasnippet-snippets :ensure t)
 
@@ -288,6 +316,7 @@
   :disabled)
 
 ;;; code formatting
+
 (use-package format-all :ensure t)
 
 ;;; company
@@ -335,7 +364,7 @@
 (use-package paredit :ensure t
   :defer t
   :diminish "()"
-  
+
   :init
   (add-hook 'emacs-lisp-mode-hook       #'paredit-mode)
   ;;(add-hook 'eval-expression-minibuffer-setup-hook #'paredit-mode)
@@ -351,12 +380,16 @@
               ("C-<left>" . left-word)
               ("RET" . electrify-return-if-match)))
 
+(use-package paredit-everywhere :ensure t
+  :diminish ()
+  :hook (prog-mode . paredit-everywhere-mode))
+
 ;;; flyspell
 ;;;;;;;;;;;;
 
 (use-package flyspell
   :commands (activate-flyspell flyspell-mode)
-  
+
   :init
   (setq flyspell-issue-message-flag nil)
   (defun activate-flyspell ()
@@ -430,7 +463,7 @@
   :config
   (setq cider-lein-command "~/.bin/lein")
   ;;(setq cider-repl-use-pretty-printing t)
-  
+
   (add-hook 'cider-repl-mode-hook #'cider-mode-stuff)
   (add-hook 'cider-mode-hook #'cider-mode-stuff)
   (add-hook 'clojure-mode-hook #'paredit-mode))
@@ -439,6 +472,7 @@
 ;;;;;;;;;;
 
 (use-package flycheck :ensure t
+  :pin melpa
   :after elpy)
 
 (use-package py-autopep8 :ensure t
@@ -480,6 +514,11 @@
   :after julia-mode
   :hook (julia-mode . julia-repl-mode))
 
+(use-package julia-img-view
+  :load-path "/home/chfin/dateien/src/julia-img-view/"
+  :after julia-repl
+  :config (julia-img-view-setup))
+
 ;; (require 'julia-mode)
 
 ;;; haskell
@@ -491,7 +530,8 @@
   :hook
   (haskell-mode . haskell-indentation-mode)
   (haskell-mode . interactive-haskell-mode)
-  (haskell-mode . lsp))
+  (haskell-mode . lsp)
+  )
 
 ;; (use-package intero :ensure t
 ;;   :pin melpa
@@ -501,11 +541,7 @@
 ;;   )
 (use-package nix-haskell-mode :ensure t
   :after haskell-mode)
-(use-package lsp-haskell :ensure t
-  :config
-  ;; (setq lsp-haskell-process-path-hie "ghcide")
-  ;; (setq lsp-haskell-process-args-hie '())
-  )
+(use-package lsp-haskell :ensure t)
 
 ;;; purescript
 ;;;;;;;;;;;;;;
@@ -568,6 +604,7 @@
 ;;;;;;;
 
 (use-package lua-mode :ensure t
+  :pin melpa
   :defer t)
 (use-package company-lua :ensure t
   :after lua-mode)
@@ -655,6 +692,7 @@
   :defer t)
 
 (use-package org-ref :ensure t
+  :disabled
   :pin melpa
   :after org
   :init
@@ -667,9 +705,9 @@
   :config
   ;; use ivy
   ;;(org-ref-ivy-cite-completion)
-  
+
   ;;; patches to org-ref and helm-bibtex for .dir-locals.el
-  
+
   ;; defined in org-ref/org-ref-core.el
   ;; (setq org-ref-notes-function
   ;;       (lambda (thekey)
@@ -684,7 +722,7 @@
   ;;                 (bibtex-set-dialect (parsebib-find-bibtex-dialect) t)
   ;;                 (bibtex-search-entry key)
   ;;                 (org-ref-open-bibtex-notes)))))))
-  
+
   ;; ;; from helm-bibtex/bibtex-completion.el
   ;; (defun bibtex-completion-get-entry1 (entry-key &optional do-not-find-pdf)
   ;;   (let ((bcb bibtex-completion-bibliography))
@@ -703,7 +741,7 @@
   ;;         (progn
   ;;           (display-warning :warning (concat "Bibtex-completion couldn't find entry with key \"" entry-key "\"."))
   ;;           nil)))))
-  
+
   ;; ;; from helm-bibtex/helm-bibtex.el
   ;; (defun helm-bibtex (&optional arg)
   ;;   (interactive "P")
@@ -714,7 +752,7 @@
   ;;         :buffer "*helm bibtex*"
   ;;         :candidate-number-limit 500
   ;;         :bib bibtex-completion-bibliography))
-  
+
   ;; ;; from helm-bibtex/bibtex-completion.el
   ;; (defun bibtex-completion-candidates ()
   ;;   (let ((bibtex-completion-bibliography (or helm-bib bibtex-completion-bibliography)))
@@ -793,10 +831,10 @@
   :mode (("\\.ly$" . LilyPond-mode)
          ("\\.ily$" . LilyPond-mode))
   :commands (LilyPond-mode)
-  
+
   :init
   (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
-  
+
   :config
   (setq LilyPond-include-path "/home/chfin/dateien/src/openlilylib-snippets/")
   (setq LilyPond-lilypond-command (concat "lilypond --include=" LilyPond-include-path))
@@ -813,7 +851,7 @@
 
           ;; The following are refreshed in LilyPond-command:
           ;; - current-midi depends on cursor position and
-          ("Midi" . (""))               ; 
+          ("Midi" . (""))               ;
           ;; - all-midi depends on number of midi-score.
           ("MidiAll" . ("")))))
 
@@ -825,6 +863,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package ein :ensure t
+  :defer t
   :pin melpa
   :commands (ein:notebooklist-open ein:notebooklist-login))
 
