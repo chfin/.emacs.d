@@ -41,7 +41,7 @@
  '(TeX-PDF-mode t)
  '(column-number-mode t)
  '(custom-safe-themes
-   '("f2c35f8562f6a1e5b3f4c543d5ff8f24100fae1da29aeb1864bbc17758f52b70" "f56eb33cd9f1e49c5df0080a3e8a292e83890a61a89bceeaa481a5f183e8e3ef" "816bacf37139d6204b761fea0d25f7f2f43b94affa14aa4598bce46157c160c2" "76c5b2592c62f6b48923c00f97f74bcb7ddb741618283bdb2be35f3c0e1030e3" "7aaee3a00f6eb16836f5b28bdccde9e1079654060d26ce4b8f49b56689c51904" "f3455b91943e9664af7998cc2c458cfc17e674b6443891f519266e5b3c51799d" "ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "2997ecd20f07b99259bddba648555335ffb7a7d908d8d3e6660ecbec415f6b95" default))
+   '("e6df46d5085fde0ad56a46ef69ebb388193080cc9819e2d6024c9c6e27388ba9" "f2c35f8562f6a1e5b3f4c543d5ff8f24100fae1da29aeb1864bbc17758f52b70" "f56eb33cd9f1e49c5df0080a3e8a292e83890a61a89bceeaa481a5f183e8e3ef" "816bacf37139d6204b761fea0d25f7f2f43b94affa14aa4598bce46157c160c2" "76c5b2592c62f6b48923c00f97f74bcb7ddb741618283bdb2be35f3c0e1030e3" "7aaee3a00f6eb16836f5b28bdccde9e1079654060d26ce4b8f49b56689c51904" "f3455b91943e9664af7998cc2c458cfc17e674b6443891f519266e5b3c51799d" "ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "2997ecd20f07b99259bddba648555335ffb7a7d908d8d3e6660ecbec415f6b95" default))
  '(fci-rule-character-color "#202020")
  '(fringe-mode nil nil (fringe))
  '(haskell-interactive-popup-errors nil)
@@ -55,9 +55,11 @@
  '(org-agenda-files
    '("~/Uni/phd/notes/graph_grammars.org" "~/Uni/master/notes.org"))
  '(package-selected-packages
-   '(paredit-everywhere diminish eglot company-box lsp-ui company-lsp toml-mode flycheck-rust cargo rust-mode format-all lsp-haskell lsp-mode nix-haskell-mode dante psc-ide purescript-mode org-ref helm-bibtex intero pandoc-mode yasnippet-snippets company-qml qml-mode zenburn-theme julia-repl zotxt auctex js2-mode haskell-mode flycheck slime company yasnippet avy swiper ivy company-lua lua-mode yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit monokai-theme markdown-mode magit ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window))
+   '(psci cargo rust-mode paredit-everywhere diminish eglot company-box lsp-ui company-lsp toml-mode flycheck-rust format-all lsp-haskell lsp-mode nix-haskell-mode dante psc-ide purescript-mode org-ref helm-bibtex intero pandoc-mode yasnippet-snippets company-qml qml-mode zenburn-theme julia-repl zotxt auctex js2-mode haskell-mode flycheck slime company yasnippet avy swiper ivy company-lua lua-mode yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit monokai-theme markdown-mode magit ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window))
  '(safe-local-variable-values
-   '((haskell-process-type . stack-ghci)
+   '((format-all-formatters
+      ("Haskell" 'ormolu))
+     (haskell-process-type . stack-ghci)
      (cider-clojure-cli-global-options . "-A:fig")
      (enable-format-all . t)
      (cider-figwheel-main-default-options . "dev")
@@ -205,6 +207,7 @@
 ;;;;;;;;;;;;;;
 
 (use-package projectile :ensure t
+  :pin melpa
   :init
   (projectile-mode)
   :config
@@ -321,7 +324,8 @@
 
 ;;; code formatting
 
-(use-package format-all :ensure t)
+(use-package format-all :ensure t
+  :hook (format-all-mode . format-all-ensure-formatter))
 
 ;;; company
 ;;;;;;;;;;;
@@ -340,12 +344,14 @@
   (setq company-dabbrev-downcase nil)
   :config (setq company-idle-delay 0.3))
 
+(use-package company-box :ensure t
+  :diminish ""
+  :hook (company-mode . company-box-mode))
+
 (use-package company-quickhelp :ensure t
+  :diminish ""
   :config
   (company-quickhelp-mode t))
-
-;; (use-package company-box :ensure t
-;;   :hook (company-mode . company-box-mode))
 
 ;;; paredit
 ;;;;;;;;;;;
@@ -422,15 +428,6 @@
   (lsp-ui-mode . (lambda ()
                    (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
                    (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references))))
-
-(use-package company-lsp :ensure t
-  :requires company
-  :after lsp-mode
-  :config
-  (push 'company-lsp company-backends)
-  (setq company-transformers nil
-        company-lsp-async t
-        company-lsp-cache-candidates nil))
 
 ;;; extempore
 ;;;;;;;;;;;;;
@@ -551,8 +548,17 @@
 ;;;;;;;;;;;;;;
 
 (use-package purescript-mode :ensure t
-  :defer t)
+  :pin melpa
+  :defer t
+  :diminish "<≡>"
+  :hook
+  (purescript-mode . lsp)
+  (purescript-mode . inferior-psci-mode)
+  (purescript-mode . turn-on-purescript-indentation))
+
 (use-package psc-ide :ensure t
+  :disabled
+  :pin melpa
   :defer t
   :after purescript-mode
   :diminish "<≡>"
@@ -561,18 +567,27 @@
                     (psc-ide-mode)
                     (company-mode)
                     (flycheck-mode)
-                    (turn-on-purescript-indentation))))
+                    (turn-on-purescript-indentation)))
+  :bind (:map psc-ide-mode-map
+              ("C-c C-r" . psc-ide-load-all)
+              ("C-c C-l" . nil)))
+
+(use-package psci :ensure t
+  :pin melpa
+  :defer t
+  :after purescript-mode
+  :diminish "")
 
 ;;; rust
 ;;;;;;;;
 
-(use-package rust-mode :ensure t
+(use-package rust-mode :ensure t :pin melpa
   :hook (rust-mode . lsp))
 
-(use-package cargo :ensure t
+(use-package cargo :ensure t :pin melpa
   :hook (rust-mode . cargo-minor-mode))
 
-(use-package flycheck-rust :ensure t
+(use-package flycheck-rust :ensure t :pin melpa
   :hook (flycheck-mode . flycheck-rust-setup))
 
 ;;; scala
