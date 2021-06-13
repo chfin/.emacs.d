@@ -55,9 +55,11 @@
  '(org-agenda-files
    '("~/Uni/phd/notes/graph_grammars.org" "~/Uni/master/notes.org"))
  '(package-selected-packages
-   '(paredit-everywhere diminish eglot company-box lsp-ui company-lsp toml-mode flycheck-rust cargo rust-mode format-all lsp-haskell lsp-mode nix-haskell-mode dante psc-ide purescript-mode org-ref pandoc-mode yasnippet-snippets company-qml qml-mode zotxt auctex haskell-mode flycheck company avy company-lua py-autopep8 prolog paredit monokai-theme ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window))
+   '(psci cargo rust-mode paredit-everywhere diminish eglot company-box lsp-ui company-lsp toml-mode flycheck-rust format-all lsp-haskell lsp-mode nix-haskell-mode dante psc-ide purescript-mode org-ref helm-bibtex intero pandoc-mode yasnippet-snippets company-qml qml-mode zenburn-theme julia-repl zotxt auctex js2-mode haskell-mode flycheck slime company yasnippet avy swiper ivy company-lua lua-mode yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit monokai-theme markdown-mode magit ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window))
  '(safe-local-variable-values
-   '((haskell-process-type . stack-ghci)
+   '((format-all-formatters
+      ("Haskell" 'ormolu))
+     (haskell-process-type . stack-ghci)
      (cider-clojure-cli-global-options . "-A:fig")
      (enable-format-all . t)
      (cider-figwheel-main-default-options . "dev")
@@ -205,6 +207,7 @@
 ;;;;;;;;;;;;;;
 
 (use-package projectile :ensure t
+  :pin melpa
   :init
   (projectile-mode)
   :config
@@ -321,7 +324,8 @@
 
 ;;; code formatting
 
-(use-package format-all :ensure t)
+(use-package format-all :ensure t
+  :hook (format-all-mode . format-all-ensure-formatter))
 
 ;;; company
 ;;;;;;;;;;;
@@ -340,12 +344,14 @@
   (setq company-dabbrev-downcase nil)
   :config (setq company-idle-delay 0.3))
 
+(use-package company-box :ensure t
+  :diminish ""
+  :hook (company-mode . company-box-mode))
+
 (use-package company-quickhelp :ensure t
+  :diminish ""
   :config
   (company-quickhelp-mode t))
-
-;; (use-package company-box :ensure t
-;;   :hook (company-mode . company-box-mode))
 
 ;;; paredit
 ;;;;;;;;;;;
@@ -422,15 +428,6 @@
   (lsp-ui-mode . (lambda ()
                    (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
                    (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references))))
-
-(use-package company-lsp :ensure t
-  :requires company
-  :after lsp-mode
-  :config
-  (push 'company-lsp company-backends)
-  (setq company-transformers nil
-        company-lsp-async t
-        company-lsp-cache-candidates nil))
 
 ;;; extempore
 ;;;;;;;;;;;;;
@@ -551,8 +548,17 @@
 ;;;;;;;;;;;;;;
 
 (use-package purescript-mode :ensure t
-  :defer t)
+  :pin melpa
+  :defer t
+  :diminish "<≡>"
+  :hook
+  (purescript-mode . lsp)
+  (purescript-mode . inferior-psci-mode)
+  (purescript-mode . turn-on-purescript-indentation))
+
 (use-package psc-ide :ensure t
+  :disabled
+  :pin melpa
   :defer t
   :after purescript-mode
   :diminish "<≡>"
@@ -561,18 +567,27 @@
                     (psc-ide-mode)
                     (company-mode)
                     (flycheck-mode)
-                    (turn-on-purescript-indentation))))
+                    (turn-on-purescript-indentation)))
+  :bind (:map psc-ide-mode-map
+              ("C-c C-r" . psc-ide-load-all)
+              ("C-c C-l" . nil)))
+
+(use-package psci :ensure t
+  :pin melpa
+  :defer t
+  :after purescript-mode
+  :diminish "")
 
 ;;; rust
 ;;;;;;;;
 
-(use-package rust-mode :ensure t
+(use-package rust-mode :ensure t :pin melpa
   :hook (rust-mode . lsp))
 
-(use-package cargo :ensure t
+(use-package cargo :ensure t :pin melpa
   :hook (rust-mode . cargo-minor-mode))
 
-(use-package flycheck-rust :ensure t
+(use-package flycheck-rust :ensure t :pin melpa
   :hook (flycheck-mode . flycheck-rust-setup))
 
 ;;; scala
