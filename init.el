@@ -857,6 +857,8 @@
   :config
   (setq LilyPond-include-path "/home/chfin/dateien/src/openlilylib-snippets/")
   (setq LilyPond-lilypond-command (concat "lilypond --include=" LilyPond-include-path))
+  (setq LilyPond-pdf-command "xdg-open")
+  (setq LilyPond-ps-command "xdg-open")
   (setq LilyPond-command-alist
         `(("LilyPond" . (,(concat LilyPond-lilypond-command " %s") "%s" "%l" "View"))
           ("2PS" . (,(concat LilyPond-lilypond-command " -f ps %s") "%s" "%p" "ViewPS"))
