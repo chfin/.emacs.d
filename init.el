@@ -565,27 +565,43 @@
 ;;; python
 ;;;;;;;;;;
 
-(use-package flycheck :ensure t
-  :pin melpa
-  :diminish ""
-  :after elpy)
-
-(use-package py-autopep8 :ensure t
-  :after elpy
-  :init (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
-
-(use-package company-jedi :ensure t
-  :after elpy)
-
-(use-package elpy :ensure t
-  :commands (elpy-enable)
+(use-package lsp-pyright :ensure t
+  :defer t
   :config
-  (add-hook 'elpy-mode-hook
-            (lambda ()
-              ;;(highlight-indentation-mode nil)
-              (add-to-list 'company-backends 'company-jedi)))
-  (add-hook 'elpy-mode-hook 'flycheck-mode)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
+  (setq lsp-clients-python-library-directories '("/usr/" "~/miniconda3/pkgs"))
+  (setq ;; lsp-pyright-disable-language-service nil
+	;; lsp-pyright-disable-organize-imports nil
+	;; lsp-pyright-auto-import-completions t
+	lsp-pyright-use-library-code-for-types t
+	;; lsp-pyright-venv-path "~/miniconda3/envs"
+        lsp-pyright-stub-path "~/dateien/src/python-type-stubs")
+  :hook ((python-mode . (lambda () 
+                          (require 'lsp-pyright)
+                          (lsp)))))
+
+;; old config:
+
+;; (use-package flycheck :ensure t
+;;   :pin melpa
+;;   :diminish ""
+;;   :after elpy)
+
+;; (use-package py-autopep8 :ensure t
+;;   :after elpy
+;;   :init (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
+
+;; (use-package company-jedi :ensure t
+;;   :after elpy)
+
+;; (use-package elpy :ensure t
+;;   :commands (elpy-enable)
+;;   :config
+;;   (add-hook 'elpy-mode-hook
+;;             (lambda ()
+;;               ;;(highlight-indentation-mode nil)
+;;               (add-to-list 'company-backends 'company-jedi)))
+;;   (add-hook 'elpy-mode-hook 'flycheck-mode)
+;;   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
 
 ;;; julia/ESS
 ;;;;;;;;;;;;;
@@ -683,7 +699,9 @@
 ;;;;;;;;;;;;;;
 
 (use-package js2-mode :ensure t
-  :mode "\\.js\\'")
+  :mode "\\.js\\'"
+  :config
+  (setq js2-basic-offset 2))
 
 (use-package qml-mode :ensure t
   :defer t)
