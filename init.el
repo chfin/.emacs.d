@@ -1,5 +1,6 @@
 (load "~/.emacs.d/machine.el")
 (setq ad-redefinition-action 'accept)
+(setq lexical-binding t)
 
 ;;;;;;;;;;;;;;;;;;
 ;;;; packages ;;;;
@@ -10,17 +11,21 @@
 ;; (add-to-list 'package-archives
 ;;     '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/"))
+             '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives
-             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives '("gnu-devel" . "https://elpa.gnu.org/devel/"))
+
 ;; for elpy
 ;; (add-to-list 'package-archives
 ;;              '("elpy" . "http://jorgenschaefer.github.io/packages/"))
 
 (setq package-archive-priorities
-      '(("melpa-stable" . 10)
-        ("gnu"          . 5)
-        ("melpa"        . 0)))
+      '(("gnu"          . 10)
+        ("nongnu"       . 9)
+        ("melpa"        . 5)
+        ("gnu-devel"    . 2)
+        ("melpa-stable" . 0)))
 
 (package-initialize)
 (package-install 'use-package)
@@ -41,7 +46,7 @@
  '(TeX-PDF-mode t)
  '(column-number-mode t)
  '(custom-safe-themes
-   '("e6df46d5085fde0ad56a46ef69ebb388193080cc9819e2d6024c9c6e27388ba9" "f2c35f8562f6a1e5b3f4c543d5ff8f24100fae1da29aeb1864bbc17758f52b70" "f56eb33cd9f1e49c5df0080a3e8a292e83890a61a89bceeaa481a5f183e8e3ef" "816bacf37139d6204b761fea0d25f7f2f43b94affa14aa4598bce46157c160c2" "76c5b2592c62f6b48923c00f97f74bcb7ddb741618283bdb2be35f3c0e1030e3" "7aaee3a00f6eb16836f5b28bdccde9e1079654060d26ce4b8f49b56689c51904" "f3455b91943e9664af7998cc2c458cfc17e674b6443891f519266e5b3c51799d" "ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "2997ecd20f07b99259bddba648555335ffb7a7d908d8d3e6660ecbec415f6b95" default))
+   '("2dc03dfb67fbcb7d9c487522c29b7582da20766c9998aaad5e5b63b5c27eec3f" "a3e99dbdaa138996bb0c9c806bc3c3c6b4fd61d6973b946d750b555af8b7555b" "fc48cc3bb3c90f7761adf65858921ba3aedba1b223755b5924398c666e78af8b" "b77a00d5be78f21e46c80ce450e5821bdc4368abf4ffe2b77c5a66de1b648f10" "569bc616c09c389761622ca5be12031dcd7a0fe4c28b1b7154242812b694318c" "3b8284e207ff93dfc5e5ada8b7b00a3305351a3fb222782d8033a400a48eca48" "e6df46d5085fde0ad56a46ef69ebb388193080cc9819e2d6024c9c6e27388ba9" "f2c35f8562f6a1e5b3f4c543d5ff8f24100fae1da29aeb1864bbc17758f52b70" "f56eb33cd9f1e49c5df0080a3e8a292e83890a61a89bceeaa481a5f183e8e3ef" "816bacf37139d6204b761fea0d25f7f2f43b94affa14aa4598bce46157c160c2" "76c5b2592c62f6b48923c00f97f74bcb7ddb741618283bdb2be35f3c0e1030e3" "7aaee3a00f6eb16836f5b28bdccde9e1079654060d26ce4b8f49b56689c51904" "f3455b91943e9664af7998cc2c458cfc17e674b6443891f519266e5b3c51799d" "ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "2997ecd20f07b99259bddba648555335ffb7a7d908d8d3e6660ecbec415f6b95" default))
  '(fci-rule-character-color "#202020")
  '(fringe-mode nil nil (fringe))
  '(haskell-interactive-popup-errors nil)
@@ -49,15 +54,18 @@
  '(indicate-empty-lines t)
  '(inhibit-startup-screen t)
  '(linum-format " %7i ")
- '(lsp-ui-doc-position 'top)
- '(lsp-ui-sideline-ignore-duplicate t)
- '(lsp-ui-sideline-show-symbol nil)
+ '(org-adapt-indentation ''headline-data)
  '(org-agenda-files
    '("~/Uni/phd/notes/graph_grammars.org" "~/Uni/master/notes.org"))
  '(package-selected-packages
-   '(psci cargo rust-mode paredit-everywhere diminish eglot company-box lsp-ui company-lsp toml-mode flycheck-rust format-all lsp-haskell lsp-mode nix-haskell-mode dante psc-ide purescript-mode org-ref helm-bibtex intero pandoc-mode yasnippet-snippets company-qml qml-mode zenburn-theme julia-repl zotxt auctex js2-mode haskell-mode flycheck slime company yasnippet avy swiper ivy company-lua lua-mode yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit monokai-theme markdown-mode magit ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window))
+   '(all-the-icons-completion all-the-icons vertico forge citar-embark embark-consult embark citar company-reftex ido-mode crdt multiple-cursors lsp-treemacs treemacs-magit treemacs-projectile treemacs dhall-mode psci cargo rust-mode paredit-everywhere diminish eglot company-box lsp-ui company-lsp toml-mode flycheck-rust format-all lsp-haskell lsp-mode nix-haskell-mode dante psc-ide purescript-mode org-ref helm-bibtex intero pandoc-mode yasnippet-snippets company-qml qml-mode zenburn-theme julia-repl zotxt auctex js2-mode haskell-mode flycheck slime yasnippet avy swiper ivy company-lua lua-mode yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit monokai-theme markdown-mode magit ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window))
  '(safe-local-variable-values
-   '((format-all-formatters
+   '((bibtex-completion-bibliography quote
+                                     ("~/Uni/phd/notes/references/reading-diary.bib"))
+     (cider-shadow-default-options . "app")
+     (cider-shadow-default-options . "dev")
+     (cider-default-cljs-repl . shadow)
+     (format-all-formatters
       ("Haskell" 'ormolu))
      (haskell-process-type . stack-ghci)
      (cider-clojure-cli-global-options . "-A:fig")
@@ -97,7 +105,7 @@
 
 (set-face-font 'default
                (cond
-                ((equal machine-name :chfin-dcml) "DejaVu Sans Mono-16")
+                ((equal machine-name :chfin-dcml) "DejaVu Sans Mono-15")
                 ((equal machine-name :chfin-tp)   "DejaVu Sans Mono-10")))
 ;; (set-face-attribute 'default nil :height 170)
 
@@ -117,6 +125,9 @@
   :pin melpa)
 
 (load-theme 'zenburn)
+
+(use-package all-the-icons :ensure t
+  :if (display-graphic-p))
 
 ;;; smart-mode-line
 ;;;;;;;;;;;;;;;;;;;
@@ -151,11 +162,15 @@
         (not
          (let ((method (file-remote-p name 'method)))
            (when (stringp method)
-             (member method '("su" "sudo"))))))))
+             (member method '("su" "sudo")))))))
+ ;; performance settings
+ gc-cons-threshold 100000000
+ read-process-output-max (* 1024 1024))
 
+;; auth-source
+(setq auth-sources '("~/.authinfo.gpg"))
 
-
-;; use tabs
+;; use spaces instead of tabs
 (setq-default indent-tabs-mode nil)
 
 ;; delete-selection-mode
@@ -163,20 +178,15 @@
 
 ;; key bindings
 (global-set-key (kbd "M-o") 'other-window)
-(global-set-key (kbd "s-b") 'ivy-switch-buffer)
-(global-set-key (kbd "s-k") 'ido-kill-buffer)
-
+(global-set-key (kbd "s-k") 'kill-buffer)
+;; (global-set-key (kbd "s-b") 'ivy-switch-buffer)
+;; (global-set-key (kbd "s-k") 'ido-kill-buffer)
+;; (global-set-key (kbd "C-x C-f") 'ido-find-file)
 
 ;; deprecate key bindings
-(setq lexical-binding t)
-(defun warn-key (msg)
-  (lambda ()
-    (interactive)
-    (message msg)))
-(setq lexical-binding nil)
-(global-set-key (kbd "C-x o") (warn-key "deprecated, use M-o or s-o instead."))
-(global-set-key (kbd "C-x b") (warn-key "deprecated, use s-b instead."))
-(global-set-key (kbd "C-x k") (warn-key "deprecated, use s-k instead."))
+(global-set-key (kbd "C-x o") (lambda () (interactive) (message "deprecated, use M-o or s-o instead.")))
+(global-set-key (kbd "C-x b") (lambda () (interactive) (message "deprecated, use s-b instead.")))
+(global-set-key (kbd "C-x k") (lambda () (interactive) (message "deprecated, use s-k instead.")))
 (global-set-key (kbd "C-z") nil)
 (global-set-key (kbd "C-x C-z") nil)
 
@@ -187,14 +197,18 @@
 ;;; diminish
 ;;;;;;;;;;;;
 
-(use-package diminish :ensure t)
+(use-package diminish :ensure t
+  :config
+  (diminish 'eldoc-mode))
 
 ;;; undo-tree
 ;;;;;;;;;;;;;
 
 (use-package undo-tree :ensure t
   :diminish undo-tree-mode
-  :config (global-undo-tree-mode))
+  :config
+  (global-undo-tree-mode)
+  (setq undo-tree-auto-save-history nil))
 
 ;;; ace-jump
 ;;;;;;;;;;;;
@@ -208,73 +222,101 @@
 
 (use-package projectile :ensure t
   :pin melpa
+  :diminish " proj"
   :init
   (projectile-mode)
   :config
   (add-to-list 'projectile-globally-ignored-file-suffixes "~")
   (add-to-list 'projectile-globally-ignored-file-suffixes "#")
-  (setq projectile-mode-line '(:eval (format " Proj[%s]" (projectile-project-name)))))
+  (setq projectile-dynamic-mode-line nil))
 
 ;;; ido
 ;;;;;;;
 
-(ido-mode t)
-(setq ido-everywhere t)
-(setq ido-enable-flex-matching t)
-(setq ido-use-faces nil)
+;; (use-package ido :ensure t
+;;   :init
+;;   (ido-mode t)
+;;   (setq ido-everywhere t)
+;;   (setq ido-enable-flex-matching t)
+;;   (setq ido-use-faces nil)
+;;   ;; disable fancy matching when trying to create a new file:
+;;   (setq ido-auto-merge-work-directories-length -1))
 
-(use-package flx-ido :ensure t
+;; (use-package flx-ido :ensure t
+;;   :init
+;;   (flx-ido-mode 1))
+
+;; (use-package ido-vertical-mode :ensure t
+;;   :init
+;;   (ido-vertical-mode 1))
+
+;;; vertico/orderless/marginals/consult
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package vertico :ensure t
   :init
-  (flx-ido-mode 1))
+  (vertico-mode)
+  (setq vertico-cycle t))
 
-(use-package ido-vertical-mode :ensure t
+(use-package vertico-directory :ensure nil ; part of vertico
+  :after vertico
+  :bind (:map vertico-map
+              ("RET" . vertico-directory-enter)
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+
+(use-package orderless :ensure t
   :init
-  (ido-vertical-mode 1))
+  (setq completion-styles '(orderless)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
 
-;;; smex
-;;;;;;;;
-;; disabled in favour of ivy/counsel
-
-(use-package smex :ensure t
-  :disabled
-  :init (smex-initialize)
-  :bind
-  (("M-x" . smex)
-   ("M-X" . smex-major-mode-commands)
-   ;;This is your old M-x.
-   ("C-c C-c M-x" . execute-extended-command)))
-
-;;; ivy/counsel (instead of helm/smex)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(use-package ivy :ensure t
-  :demand
-  :diminish (ivy-mode . "")
-  :init
-  (ivy-mode 1)
-  ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
-  (setq ivy-use-virtual-buffers t)
-  ;; no regexp by default
-  (setq ivy-initial-inputs-alist nil)
-  ;; configure regexp engine.
-  (setq ivy-re-builders-alist
-        ;; allow input not in order
-        '((t   . ivy--regex-ignore-order))))
-
-(use-package swiper :ensure t
-  :bind (:map ivy-mode-map
-              ("C-s" . swiper)))
-
-(use-package counsel :ensure t
-  :demand
-  :bind (:map ivy-mode-map
-              ("M-x" . counsel-M-x)
-              ("<f1> u" . counsel-unicode-char))
+(use-package consult :ensure t
+  :bind (("C-s" . consult-line)
+         ("s-b" . consult-buffer))
+  :init (recentf-mode)
   :config
-  (setq counsel-find-file-ignore-regexp "\\(?:\\`[#.]\\)\\|\\(?:[#~]\\'\\)\\|\\(\\`\\.\\)"))
+  ;; disable automatic preview for all commands involving files
+  (consult-customize
+   consult-ripgrep consult-git-grep consult-grep
+   consult-bookmark consult-recent-file consult-xref
+   consult--source-bookmark consult--source-recent-file
+   consult--source-project-recent-file
+   :preview-key (kbd "M-.")))
 
-;;; avy (instead of ace-jump-mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package marginalia :ensure t
+  :init (marginalia-mode))
+
+;; add icons to marginalia
+(use-package all-the-icons-completion :ensure t
+  :after (marginalia all-the-icons)
+  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
+  :init
+  (all-the-icons-completion-mode))
+
+(use-package embark :ensure t
+  :bind
+  (("C-." . embark-act)
+   ("C-," . embark-dwim))
+  :init
+  ;; replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+  :config
+  ;; hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+(use-package embark-consult :ensure t
+  :after (embark consult)
+  :demand t
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+;;; avy (instead of ace-jump-mode)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package avy :ensure t
   :bind
@@ -292,6 +334,7 @@
   ;;:commands (yas-minor-mode)
   ;;:init
   ;;(add-hook 'prog-mode-hook #'yas-minor-mode)
+  :diminish yas-minor-mode
 
   :config
   (yas-global-mode 1)
@@ -322,11 +365,6 @@
 (use-package auto-complete :ensure t
   :disabled)
 
-;;; code formatting
-
-(use-package format-all :ensure t
-  :hook (format-all-mode . format-all-ensure-formatter))
-
 ;;; company
 ;;;;;;;;;;;
 
@@ -337,6 +375,7 @@
             '(:with company-yasnippet))))
 
 (use-package company :ensure t
+  :pin melpa
   :diminish ""
   :init
   (global-company-mode)
@@ -352,6 +391,16 @@
   :diminish ""
   :config
   (company-quickhelp-mode t))
+
+;;; code formatting
+;;;;;;;;;;;;;;;;;;;
+
+(use-package format-all :ensure t
+  :diminish "fmt"
+  :config
+  (push '("PureScript" purs-tidy) format-all-default-formatters)
+  :hook
+  (format-all-mode . format-all-ensure-formatter))
 
 ;;; paredit
 ;;;;;;;;;;;
@@ -394,6 +443,15 @@
   :diminish ()
   :hook (prog-mode . paredit-everywhere-mode))
 
+;;; multiple cursors
+;;;;;;;;;;;;;;;;;;;;
+
+(use-package multiple-cursors :ensure t
+  :pin melpa
+  :bind
+  (:map global-map
+        ("C-c m c" . mc/edit-lines)))
+
 ;;; flyspell
 ;;;;;;;;;;;;
 
@@ -402,11 +460,33 @@
 
   :init
   (setq flyspell-issue-message-flag nil)
+  (setq flyspell-use-meta-tab nil)
   (defun activate-flyspell ()
     (interactive)
     (ispell-change-dictionary "american")
     (flyspell-mode t)
-    (flyspell-buffer)))
+    (flyspell-buffer)
+    ;;(define-key flyspell-mode-map "C-M-i" nil)
+    )
+  )
+
+;;; treemacs
+;;;;;;;;;;;;
+
+(use-package treemacs :ensure t
+  :pin melpa
+  :defer t
+  :bind
+  (:map global-map
+        ("s-t" . treemacs)))
+
+(use-package treemacs-projectile :ensure t
+  :pin melpa
+  :after (treemacs projectile))
+
+(use-package treemacs-magit :ensure t
+  :pin melpa
+  :after (treemacs magit))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; programming modes ;;;;
@@ -417,17 +497,30 @@
 
 (use-package lsp-mode :ensure t
   :pin melpa
+  :diminish "lsp"
   :commands lsp
   :config
-  (setq lsp-prefer-flymake nil))
+  (setq lsp-prefer-flymake nil)
+  (setq lsp-modeline-code-actions-segments '(count))
+  (diminish 'flycheck-mode))
 
 (use-package lsp-ui :ensure t
   :pin melpa
+  :config
+  (diminish 'lsp-lens-mode)
+  (setq lsp-ui-doc-position 'top)
+  (setq lsp-ui-sideline-ignore-duplicate t)
+  (setq lsp-ui-sideline-show-symbol nil)
   :hook
   (lsp-mode . lsp-ui-mode)
+  ;(lsp-mode . lsp-lens-mode)
   (lsp-ui-mode . (lambda ()
                    (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
                    (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references))))
+
+(use-package lsp-treemacs :ensure t
+  :pin melpa
+  :after (treemacs lsp))
 
 ;;; extempore
 ;;;;;;;;;;;;;
@@ -472,39 +565,46 @@
 ;;; python
 ;;;;;;;;;;
 
-(use-package flycheck :ensure t
-  :pin melpa
-  :after elpy)
-
-(use-package py-autopep8 :ensure t
-  :after elpy
-  :init (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
-
-(use-package company-jedi :ensure t
-  :after elpy)
-
-(use-package elpy :ensure t
-  :commands (elpy-enable)
+(use-package lsp-pyright :ensure t
+  :defer t
   :config
-  (add-hook 'elpy-mode-hook
-            (lambda ()
-              ;;(highlight-indentation-mode nil)
-              (add-to-list 'company-backends 'company-jedi)))
-  (add-hook 'elpy-mode-hook 'flycheck-mode)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
+  (setq lsp-clients-python-library-directories '("/usr/" "~/miniconda3/pkgs"))
+  (setq ;; lsp-pyright-disable-language-service nil
+	;; lsp-pyright-disable-organize-imports nil
+	;; lsp-pyright-auto-import-completions t
+	lsp-pyright-use-library-code-for-types t
+	;; lsp-pyright-venv-path "~/miniconda3/envs"
+        lsp-pyright-stub-path "~/dateien/src/python-type-stubs")
+  :hook ((python-mode . (lambda () 
+                          (require 'lsp-pyright)
+                          (lsp)))))
+
+;; old config:
+
+;; (use-package flycheck :ensure t
+;;   :pin melpa
+;;   :diminish ""
+;;   :after elpy)
+
+;; (use-package py-autopep8 :ensure t
+;;   :after elpy
+;;   :init (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
+
+;; (use-package company-jedi :ensure t
+;;   :after elpy)
+
+;; (use-package elpy :ensure t
+;;   :commands (elpy-enable)
+;;   :config
+;;   (add-hook 'elpy-mode-hook
+;;             (lambda ()
+;;               ;;(highlight-indentation-mode nil)
+;;               (add-to-list 'company-backends 'company-jedi)))
+;;   (add-hook 'elpy-mode-hook 'flycheck-mode)
+;;   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
 
 ;;; julia/ESS
 ;;;;;;;;;;;;;
-
-;; (use-package ess :ensure t
-;;   ;;:defer t
-;;   :init
-;;   (add-hook 'ess-julia-mode-hook
-;;             (lambda () (define-key ess-julia-mode-map (kbd "<tab>")
-;;                          'julia-latexsub-or-indent)))
-;;   :mode ("\\.jl\\'" . ess-julia-mode)
-;;   :config
-;;   (require 'ess-site))
 
 (use-package julia-mode :ensure t
   :pin melpa
@@ -530,18 +630,15 @@
   :defer t
   :hook
   (haskell-mode . haskell-indentation-mode)
-  (haskell-mode . interactive-haskell-mode)
-  (haskell-mode . lsp)
-  )
+  (haskell-mode . (lambda ()
+                    (interactive-haskell-mode 1)
+                    (diminish 'interactive-haskell-mode ">>=")
+                    (define-key interactive-haskell-mode-map (kbd "M-.") nil)))
+  (haskell-mode . lsp))
 
-;; (use-package intero :ensure t
-;;   :pin melpa
-;;   :after haskell-mode
-;;   :diminish ">>="
-;;   :config (add-hook 'haskell-mode-hook 'intero-mode)
-;;   )
 (use-package nix-haskell-mode :ensure t
   :after haskell-mode)
+
 (use-package lsp-haskell :ensure t)
 
 ;;; purescript
@@ -602,7 +699,9 @@
 ;;;;;;;;;;;;;;
 
 (use-package js2-mode :ensure t
-  :mode "\\.js\\'")
+  :mode "\\.js\\'"
+  :config
+  (setq js2-basic-offset 2))
 
 (use-package qml-mode :ensure t
   :defer t)
@@ -638,28 +737,25 @@
 (use-package tex :ensure auctex
   :defer t
   :config
-  ;;(add-hook 'TeX-mode-hook 'my-auctex-startup)
-  (setq TeX-parse-self t))
+  (add-to-list 'auto-mode-alist '("\\.tex$" . LaTeX-mode))
+  (setq TeX-parse-self t)
+  (add-hook 'TeX-mode-hook
+            (lambda ()
+              ;;(company-auctex-init)
+              (setq-local company-backends
+                          (append '(company-reftex-labels company-reftex-citations company-math-symbols-latex company-latex-commands)
+                                  company-backends))
+              (turn-on-reftex)
+              (setq reftex-plug-into-AUCTeX t))))
 
 (use-package company-math :ensure t
   :after auctex)
 
 (use-package company-auctex :ensure t
-  :after auctex
-  :config
-  (add-hook 'TeX-mode-hook
-            (lambda ()
-              (setq-local company-backends
-                          (append '(company-math-symbols-latex company-latex-commands)
-                                  company-backends)))
-            (company-auctex-init)))
+  :after auctex)
 
-(use-package reftex :ensure t
-  :after auctex
-  :config
-  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-  (setq reftex-plug-into-AUCTeX t)
-  (setq reftex-default-bibliography '("~/.emacs.d/zotero.bib")))
+(use-package company-reftex :ensure t
+  :after auctex)
 
 ;;; org mode
 ;;;;;;;;;;;;
@@ -667,8 +763,12 @@
 (use-package org :ensure t
   :defer t
   :mode ("\\.org\\'" . org-mode)
+  :hook (org-mode . (lambda () (electric-indent-local-mode -1)))
+  :custom
+  (org-cite-csl-styles-dir (expand-file-name "~/Zotero/styles/"))
   :config
   (progn
+    (require 'oc-csl)
     (unless (boundp 'org-latex-classes)
       (setq org-latex-classes nil))
     (add-to-list 'org-latex-classes
@@ -691,126 +791,38 @@
                    ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
     (org-babel-do-load-languages
      'org-babel-load-languages
-     '((lilypond t)
-       (org t)))
+     '((lilypond . t)
+       (org . t)))
     (setq org-confirm-babel-evaluate nil)
     (setq org-latex-pdf-process
           '("%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
             "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
-            "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-    ))
+            "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"))))
 
 (use-package ob-lilypond
   :after org)
 
-;; (use-package ox-pandoc                  ; :ensure t
-;;   :after org)
-
-(use-package helm-bibtex :ensure t
-  :pin melpa
-  :defer t)
-
-(use-package org-ref :ensure t
-  :disabled
-  :pin melpa
-  :after org
-  :init
-  (setq
-   org-ref-bibliography-notes "~/.emacs.d/zotero.org"
-   org-ref-default-bibliography '("~/.emacs.d/zotero.bib")
-   bibtex-completion-bibliography "~/.emacs.d/zotero.bib"
-   bibtex-completion-pdf-field "file"
-   )
+(use-package citar :ensure t
+  :no-require
+  :custom
+  (org-cite-insert-processor 'citar)
+  (org-cite-follow-processor 'citar)
+  (org-cite-activate-processor 'citar)
+  (citar-bibliography org-cite-global-bibliography)
+  ;; optional: org-cite-insert is also bound to C-c C-x C-@
+  :bind
+  (:map org-mode-map :package org ("C-c b" . #'org-cite-insert))
   :config
-  ;; use ivy
-  ;;(org-ref-ivy-cite-completion)
+  (setq citar-symbols
+        `((file ,(all-the-icons-faicon "file-o" :face 'all-the-icons-green :v-adjust -0.1) . " ")
+          (note ,(all-the-icons-material "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
+          (link ,(all-the-icons-octicon "link" :face 'all-the-icons-orange :v-adjust 0.01) . " ")))
+  (setq citar-symbol-separator "  "))
 
-  ;;; patches to org-ref and helm-bibtex for .dir-locals.el
-
-  ;; defined in org-ref/org-ref-core.el
-  ;; (setq org-ref-notes-function
-  ;;       (lambda (thekey)
-  ;;         (let* ((results (org-ref-get-bibtex-key-and-file thekey))
-  ;;                (key (car results))
-  ;;                (bibfile (cdr results))
-  ;;                (notesfile org-ref-bibliography-notes))
-  ;;           (save-excursion
-  ;;             (with-temp-buffer
-  ;;               (let ((org-ref-bibliography-notes notesfile))
-  ;;                 (insert-file-contents bibfile)
-  ;;                 (bibtex-set-dialect (parsebib-find-bibtex-dialect) t)
-  ;;                 (bibtex-search-entry key)
-  ;;                 (org-ref-open-bibtex-notes)))))))
-
-  ;; ;; from helm-bibtex/bibtex-completion.el
-  ;; (defun bibtex-completion-get-entry1 (entry-key &optional do-not-find-pdf)
-  ;;   (let ((bcb bibtex-completion-bibliography))
-  ;;     (with-temp-buffer
-  ;;       (let ((bibtex-completion-bibliography bcb))
-  ;;         (mapc #'insert-file-contents
-  ;;               (bibtex-completion-normalize-bibliography 'bibtex)))
-  ;;       (goto-char (point-min))
-  ;;       (if (re-search-forward (concat "^[ \t]*@\\(" parsebib--bibtex-identifier
-  ;;                                      "\\)[[:space:]]*[\(\{][[:space:]]*"
-  ;;                                      (regexp-quote entry-key) "[[:space:]]*,")
-  ;;                              nil t)
-  ;;           (let ((entry-type (match-string 1)))
-  ;;             (reverse (bibtex-completion-prepare-entry
-  ;;                       (parsebib-read-entry entry-type) nil do-not-find-pdf)))
-  ;;         (progn
-  ;;           (display-warning :warning (concat "Bibtex-completion couldn't find entry with key \"" entry-key "\"."))
-  ;;           nil)))))
-
-  ;; ;; from helm-bibtex/helm-bibtex.el
-  ;; (defun helm-bibtex (&optional arg)
-  ;;   (interactive "P")
-  ;;   (when arg
-  ;;     (bibtex-completion-clear-cache))
-  ;;   (helm :sources (list helm-source-bibtex helm-source-fallback-options)
-  ;;         :full-frame helm-bibtex-full-frame
-  ;;         :buffer "*helm bibtex*"
-  ;;         :candidate-number-limit 500
-  ;;         :bib bibtex-completion-bibliography))
-
-  ;; ;; from helm-bibtex/bibtex-completion.el
-  ;; (defun bibtex-completion-candidates ()
-  ;;   (let ((bibtex-completion-bibliography (or helm-bib bibtex-completion-bibliography)))
-  ;;     (let ((files (nreverse (bibtex-completion-normalize-bibliography 'bibtex)))
-  ;;           reparsed-files)
-  ;;       (message "bibtex-completion-candidates: bibfile: %s" bibtex-completion-bibliography)
-  ;;       ;; Open each bibliography file in a temporary buffer,
-  ;;       ;; check hash of bibliography and reparse if necessary:
-  ;;       (cl-loop
-  ;;        for file in files
-  ;;        do
-  ;;        (with-temp-buffer
-  ;;          (insert-file-contents file)
-  ;;          (let ((bibliography-hash (secure-hash 'sha256 (current-buffer))))
-  ;;            (unless (string= (cadr (assoc file bibtex-completion-cache))
-  ;;                             bibliography-hash)
-  ;;              (bibtex-completion-clear-cache (list file))
-  ;;              (message "Parsing bibliography file %s ..." file)
-  ;;              (push (-cons* file
-  ;;                            bibliography-hash
-  ;;                            (bibtex-completion-parse-bibliography))
-  ;;                    bibtex-completion-cache)
-  ;;              ;; Mark file as reparsed.
-  ;;              ;; This will be useful to resolve cross-references:
-  ;;              (push file reparsed-files)))))
-  ;;       ;; If some files were reparsed, resolve cross-references:
-  ;;       (when reparsed-files
-  ;;         (message "Resolving cross-references ...")
-  ;;         (bibtex-completion-resolve-crossrefs files reparsed-files))
-  ;;       ;; Finally return the list of candidates:
-  ;;       (nreverse
-  ;;        (cl-loop
-  ;;         for file in files
-  ;;         append (cddr (assoc file bibtex-completion-cache))))))))
-  )
-
-(use-package zotxt :ensure t
-  :pin melpa
-  :after org)
+(use-package citar-embark :ensure t
+  :after citar embark
+  :no-require
+  :config (citar-embark-mode))
 
 ;;; markdown
 ;;;;;;;;;;;;
@@ -843,6 +855,11 @@
 
 (use-package toml-mode :ensure t)
 
+;;; dhall
+;;;;;;;;;
+
+(use-package dhall-mode :ensure t)
+
 ;;; lilypond
 ;;;;;;;;;;;;
 
@@ -857,6 +874,8 @@
   :config
   (setq LilyPond-include-path "/home/chfin/dateien/src/openlilylib-snippets/")
   (setq LilyPond-lilypond-command (concat "lilypond --include=" LilyPond-include-path))
+  (setq LilyPond-pdf-command "xdg-open")
+  (setq LilyPond-ps-command "xdg-open")
   (setq LilyPond-command-alist
         `(("LilyPond" . (,(concat LilyPond-lilypond-command " %s") "%s" "%l" "View"))
           ("2PS" . (,(concat LilyPond-lilypond-command " -f ps %s") "%s" "%p" "ViewPS"))
@@ -893,11 +912,20 @@
   :bind
   ("C-x g" . magit-status))
 
+(use-package forge :ensure t
+  :after magit)
+
 ;;; writeroom-mode
 ;;;;;;;;;;;;;;;;;;
 
 (use-package writeroom-mode :ensure t
   :commands (writeroom-mode global-writeroom-mode))
+
+;;; crdt.el / collaborative editing
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package crdt :ensure t
+  :defer t
+  :commands (crdt-share-buffer crdt-connect))
 
 ;;; pdf-tools
 ;;;;;;;;;;;;;
