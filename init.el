@@ -399,6 +399,7 @@
   :diminish "fmt"
   :config
   (push '("PureScript" purs-tidy) format-all-default-formatters)
+  (push '("Haskell" fourmolu) format-all-default-formatters)
   :hook
   (format-all-mode . format-all-ensure-formatter))
 
