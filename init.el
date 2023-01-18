@@ -105,8 +105,8 @@
 
 (set-face-font 'default
                (cond
-                ((equal machine-name :chfin-dcml) "DejaVu Sans Mono-15")
-                ((equal machine-name :chfin-tp)   "DejaVu Sans Mono-10")))
+                ((equal machine-name :chfin-tp)   "DejaVu Sans Mono-10")
+                (t "DejaVu Sans Mono-15")))
 ;; (set-face-attribute 'default nil :height 170)
 
 (defun toggle-show-trailing-whitespace ()
