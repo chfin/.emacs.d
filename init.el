@@ -58,7 +58,7 @@
  '(org-agenda-files
    '("~/Uni/phd/notes/graph_grammars.org" "~/Uni/master/notes.org"))
  '(package-selected-packages
-   '(all-the-icons-completion all-the-icons vertico forge citar-embark embark-consult embark citar company-reftex ido-mode crdt multiple-cursors lsp-treemacs treemacs-magit treemacs-projectile treemacs dhall-mode psci cargo rust-mode paredit-everywhere diminish eglot company-box lsp-ui company-lsp toml-mode flycheck-rust format-all lsp-haskell lsp-mode nix-haskell-mode dante psc-ide purescript-mode org-ref helm-bibtex intero pandoc-mode yasnippet-snippets company-qml qml-mode zenburn-theme julia-repl zotxt auctex js2-mode haskell-mode flycheck slime yasnippet avy swiper ivy company-lua lua-mode yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit monokai-theme markdown-mode magit ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window))
+   '(ob-lilypond ox-reveal org-reveal all-the-icons-completion all-the-icons vertico forge citar-embark embark-consult embark citar company-reftex ido-mode crdt multiple-cursors lsp-treemacs treemacs-magit treemacs-projectile treemacs dhall-mode psci cargo rust-mode paredit-everywhere diminish eglot company-box lsp-ui company-lsp toml-mode flycheck-rust format-all lsp-haskell lsp-mode nix-haskell-mode dante psc-ide purescript-mode org-ref helm-bibtex intero pandoc-mode yasnippet-snippets company-qml qml-mode zenburn-theme julia-repl zotxt auctex js2-mode haskell-mode flycheck slime yasnippet avy swiper ivy company-lua lua-mode yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit monokai-theme markdown-mode magit ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window))
  '(safe-local-variable-values
    '((bibtex-completion-bibliography quote
                                      ("~/Uni/phd/notes/references/reading-diary.bib"))
@@ -799,6 +799,9 @@
           '("%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
             "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
             "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"))))
+
+(use-package ox-reveal :ensure t
+  :after org)
 
 (use-package ob-lilypond
   :after org)
