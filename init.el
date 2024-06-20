@@ -46,7 +46,8 @@
  '(TeX-PDF-mode t)
  '(column-number-mode t)
  '(custom-safe-themes
-   '("2dc03dfb67fbcb7d9c487522c29b7582da20766c9998aaad5e5b63b5c27eec3f" "a3e99dbdaa138996bb0c9c806bc3c3c6b4fd61d6973b946d750b555af8b7555b" "fc48cc3bb3c90f7761adf65858921ba3aedba1b223755b5924398c666e78af8b" "b77a00d5be78f21e46c80ce450e5821bdc4368abf4ffe2b77c5a66de1b648f10" "569bc616c09c389761622ca5be12031dcd7a0fe4c28b1b7154242812b694318c" "3b8284e207ff93dfc5e5ada8b7b00a3305351a3fb222782d8033a400a48eca48" "e6df46d5085fde0ad56a46ef69ebb388193080cc9819e2d6024c9c6e27388ba9" "f2c35f8562f6a1e5b3f4c543d5ff8f24100fae1da29aeb1864bbc17758f52b70" "f56eb33cd9f1e49c5df0080a3e8a292e83890a61a89bceeaa481a5f183e8e3ef" "816bacf37139d6204b761fea0d25f7f2f43b94affa14aa4598bce46157c160c2" "76c5b2592c62f6b48923c00f97f74bcb7ddb741618283bdb2be35f3c0e1030e3" "7aaee3a00f6eb16836f5b28bdccde9e1079654060d26ce4b8f49b56689c51904" "f3455b91943e9664af7998cc2c458cfc17e674b6443891f519266e5b3c51799d" "ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "2997ecd20f07b99259bddba648555335ffb7a7d908d8d3e6660ecbec415f6b95" default))
+   '("f079ef5189f9738cf5a2b4507bcaf83138ad22d9c9e32a537d61c9aae25502ef" "18cf5d20a45ea1dff2e2ffd6fbcd15082f9aa9705011a3929e77129a971d1cb3" "f74e8d46790f3e07fbb4a2c5dafe2ade0d8f5abc9c203cd1c29c7d5110a85230" "2dc03dfb67fbcb7d9c487522c29b7582da20766c9998aaad5e5b63b5c27eec3f" "a3e99dbdaa138996bb0c9c806bc3c3c6b4fd61d6973b946d750b555af8b7555b" "fc48cc3bb3c90f7761adf65858921ba3aedba1b223755b5924398c666e78af8b" "b77a00d5be78f21e46c80ce450e5821bdc4368abf4ffe2b77c5a66de1b648f10" "569bc616c09c389761622ca5be12031dcd7a0fe4c28b1b7154242812b694318c" "3b8284e207ff93dfc5e5ada8b7b00a3305351a3fb222782d8033a400a48eca48" "e6df46d5085fde0ad56a46ef69ebb388193080cc9819e2d6024c9c6e27388ba9" "f2c35f8562f6a1e5b3f4c543d5ff8f24100fae1da29aeb1864bbc17758f52b70" "f56eb33cd9f1e49c5df0080a3e8a292e83890a61a89bceeaa481a5f183e8e3ef" "816bacf37139d6204b761fea0d25f7f2f43b94affa14aa4598bce46157c160c2" "76c5b2592c62f6b48923c00f97f74bcb7ddb741618283bdb2be35f3c0e1030e3" "7aaee3a00f6eb16836f5b28bdccde9e1079654060d26ce4b8f49b56689c51904" "f3455b91943e9664af7998cc2c458cfc17e674b6443891f519266e5b3c51799d" "ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "2997ecd20f07b99259bddba648555335ffb7a7d908d8d3e6660ecbec415f6b95" default))
+ '(ein:output-area-inlined-images t)
  '(fci-rule-character-color "#202020")
  '(fringe-mode nil nil (fringe))
  '(haskell-interactive-popup-errors nil)
@@ -54,11 +55,13 @@
  '(indicate-empty-lines t)
  '(inhibit-startup-screen t)
  '(linum-format " %7i ")
+ '(lsp-haskell-completion-in-comments t)
+ '(lsp-haskell-plugin-stan-global-on nil)
  '(org-adapt-indentation ''headline-data)
  '(org-agenda-files
    '("~/Uni/phd/notes/graph_grammars.org" "~/Uni/master/notes.org"))
  '(package-selected-packages
-   '(ob-lilypond ox-reveal org-reveal all-the-icons-completion all-the-icons vertico forge citar-embark embark-consult embark citar company-reftex ido-mode crdt multiple-cursors lsp-treemacs treemacs-magit treemacs-projectile treemacs dhall-mode psci cargo rust-mode paredit-everywhere diminish eglot company-box lsp-ui company-lsp toml-mode flycheck-rust format-all lsp-haskell lsp-mode nix-haskell-mode dante psc-ide purescript-mode org-ref helm-bibtex intero pandoc-mode yasnippet-snippets company-qml qml-mode zenburn-theme julia-repl zotxt auctex js2-mode haskell-mode flycheck slime yasnippet avy swiper ivy company-lua lua-mode yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit monokai-theme markdown-mode magit ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window))
+   '(quarto-mode julia-mode lsp-pyright marginalia orderless typst-mode sqlite3 csv-mode vterm ob-lilypond ox-reveal org-reveal all-the-icons-completion all-the-icons vertico forge citar-embark embark-consult embark citar company-reftex ido-mode crdt multiple-cursors lsp-treemacs treemacs-magit treemacs-projectile treemacs dhall-mode psci cargo rust-mode paredit-everywhere diminish eglot company-box lsp-ui company-lsp toml-mode flycheck-rust format-all lsp-haskell lsp-mode nix-haskell-mode dante psc-ide purescript-mode org-ref helm-bibtex intero pandoc-mode yasnippet-snippets company-qml qml-mode zenburn-theme julia-repl zotxt auctex js2-mode haskell-mode flycheck slime yasnippet avy swiper ivy company-lua lua-mode yaml-mode writeroom-mode web-mode use-package undo-tree solarized-theme smart-mode-line slime-company py-autopep8 prolog projectile paredit monokai-theme markdown-mode magit ido-vertical-mode graphviz-dot-mode flx-ido extempore-mode ess ensime elpy ein counsel company-quickhelp company-math company-jedi company-auctex cider ace-window))
  '(safe-local-variable-values
    '((bibtex-completion-bibliography quote
                                      ("~/Uni/phd/notes/references/reading-diary.bib"))
@@ -105,8 +108,9 @@
 
 (set-face-font 'default
                (cond
-                ((equal machine-name :chfin-tp)   "DejaVu Sans Mono-10")
-                (t "DejaVu Sans Mono-15")))
+                ((equal machine-name :chfin-dcml)   "DejaVu Sans Mono-15")
+                ;((equal machine-name :chfin-uva)   "DejaVu Sans Mono-12")
+                (t "DejaVu Sans Mono-10")))
 ;; (set-face-attribute 'default nil :height 170)
 
 (defun toggle-show-trailing-whitespace ()
@@ -283,7 +287,7 @@
    consult-bookmark consult-recent-file consult-xref
    consult--source-bookmark consult--source-recent-file
    consult--source-project-recent-file
-   :preview-key (kbd "M-.")))
+   :preview-key "M-."))
 
 (use-package marginalia :ensure t
   :init (marginalia-mode))
@@ -451,7 +455,8 @@
   :pin melpa
   :bind
   (:map global-map
-        ("C-c m c" . mc/edit-lines)))
+        ("C-c m c" . mc/edit-lines)
+        ("C-S-<mouse-1>" . mc/add-cursor-on-click)))
 
 ;;; flyspell
 ;;;;;;;;;;;;
@@ -503,7 +508,12 @@
   :config
   (setq lsp-prefer-flymake nil)
   (setq lsp-modeline-code-actions-segments '(count))
-  (diminish 'flycheck-mode))
+  (setq lsp-intelephense-multi-root nil)
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\env\\'")
+  (diminish 'flycheck-mode)
+  :hook
+  (python-mode . lsp)
+  )
 
 (use-package lsp-ui :ensure t
   :pin melpa
@@ -566,19 +576,20 @@
 ;;; python
 ;;;;;;;;;;
 
-(use-package lsp-pyright :ensure t
-  :defer t
-  :config
-  (setq lsp-clients-python-library-directories '("/usr/" "~/miniconda3/pkgs"))
-  (setq ;; lsp-pyright-disable-language-service nil
-	;; lsp-pyright-disable-organize-imports nil
-	;; lsp-pyright-auto-import-completions t
-	lsp-pyright-use-library-code-for-types t
-	;; lsp-pyright-venv-path "~/miniconda3/envs"
-        lsp-pyright-stub-path "~/dateien/src/python-type-stubs")
-  :hook ((python-mode . (lambda () 
-                          (require 'lsp-pyright)
-                          (lsp)))))
+;; (use-package lsp-pyright :ensure t
+;;   :defer t
+;;   :config
+;;   (setq lsp-clients-python-library-directories '("/usr/" "~/miniconda3/pkgs"))
+;;   (setq ;; lsp-pyright-disable-language-service nil
+;; 	;; lsp-pyright-disable-organize-imports nil
+;; 	;; lsp-pyright-auto-import-completions t
+;; 	lsp-pyright-use-library-code-for-types t
+;; 	;; lsp-pyright-venv-path "~/miniconda3/envs"
+;;         lsp-pyright-stub-path "~/dateien/src/python-type-stubs"
+;;         lsp-pyright-multi-root nil)
+;;   :hook ((python-mode . (lambda () 
+;;                           (require 'lsp-pyright)
+;;                           (lsp)))))
 
 ;; old config:
 
@@ -611,15 +622,19 @@
   :pin melpa
   :defer t)
 
+(use-package vterm :ensure t)
+
 (use-package julia-repl :ensure t
   :pin melpa
   :after julia-mode
-  :hook (julia-mode . julia-repl-mode))
+  :hook (julia-mode . julia-repl-mode)
+  :config
+  (julia-repl-set-terminal-backend 'vterm))
 
-(use-package julia-img-view
-  :load-path "/home/chfin/dateien/src/julia-img-view/"
-  :after julia-repl
-  :config (julia-img-view-setup))
+;; (use-package julia-img-view
+;;   :load-path "/home/chfin/dateien/src/julia-img-view/"
+;;   :after julia-repl
+;;   :config (julia-img-view-setup))
 
 ;; (require 'julia-mode)
 
@@ -675,6 +690,11 @@
   :defer t
   :after purescript-mode
   :diminish "")
+
+;;; r (r-lang)
+;;;;;;;;;;;;;;
+
+(use-package quarto-mode :ensure t)
 
 ;;; rust
 ;;;;;;;;
@@ -763,7 +783,7 @@
 
 (use-package org :ensure t
   :defer t
-  :mode ("\\.org\\'" . org-mode)
+  :mode ("\\.org$" . org-mode)
   :hook (org-mode . (lambda () (electric-indent-local-mode -1)))
   :custom
   (org-cite-csl-styles-dir (expand-file-name "~/Zotero/styles/"))
@@ -843,6 +863,17 @@
   (setq markdown-command "pandoc -s")
   (add-hook 'markdown-mode-hook 'pandoc-mode))
 
+;;; typst
+
+;; (use-package typst-mode :ensure t
+;;   :mode "\\.typ$"
+;;   :config (setq typst-indent-offset 2))
+
+(use-package typst-ts-mode
+  :load-path "~/dateien/src/typst-ts-mode"
+  :mode "\\.typ$"
+  :custom (typst-ts-mode-indent-offset 2 "Set indentation to 2."))
+
 ;;; graphviz
 ;;;;;;;;;;;;
 
@@ -882,14 +913,14 @@
   (setq LilyPond-ps-command "xdg-open")
   (setq LilyPond-command-alist
         `(("LilyPond" . (,(concat LilyPond-lilypond-command " %s") "%s" "%l" "View"))
-          ("2PS" . (,(concat LilyPond-lilypond-command " -f ps %s") "%s" "%p" "ViewPS"))
-          ("Book" . ("lilypond-book %x" "%x" "%l" "LaTeX"))
-          ("LaTeX" . ("latex '\\nonstopmode\\input %l'" "%l" "%d" "ViewDVI"))
+          ;;("2PS" . (,(concat LilyPond-lilypond-command " -f ps %s") "%s" "%p" "ViewPS"))
+          ;;("Book" . ("lilypond-book %x" "%x" "%l" "LaTeX"))
+          ;;("LaTeX" . ("latex '\\nonstopmode\\input %l'" "%l" "%d" "ViewDVI"))
 
           ;; refreshes when kicked USR1
           ("View" . (,(concat LilyPond-pdf-command " %f")))
-          ("ViewPDF" . (,(concat LilyPond-pdf-command " %f")))
-          ("ViewPS" . (,(concat LilyPond-ps-command " %p")))
+          ;;("ViewPDF" . (,(concat LilyPond-pdf-command " %f")))
+          ;;("ViewPS" . (,(concat LilyPond-ps-command " %p")))
 
           ;; The following are refreshed in LilyPond-command:
           ;; - current-midi depends on cursor position and
@@ -911,6 +942,8 @@
 
 ;;; magit
 ;;;;;;;;;
+
+(use-package sqlite3 :ensure t)
 
 (use-package magit :ensure t
   :bind
@@ -953,4 +986,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(typst-ts-markup-raw-blob-face ((t (:inherit shadow))))
+ '(typst-ts-markup-rawspan-lang-face ((t (:inherit shadow)))))
