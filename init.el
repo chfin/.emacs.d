@@ -232,9 +232,16 @@
 ;; (global-set-key (kbd "C-x C-f") 'ido-find-file)
 
 ;; deprecate key bindings
-(global-set-key (kbd "C-x o") (lambda () (interactive) (message "deprecated, use M-o or s-o instead.")))
-(global-set-key (kbd "C-x b") (lambda () (interactive) (message "deprecated, use s-b instead.")))
-(global-set-key (kbd "C-x k") (lambda () (interactive) (message "deprecated, use s-k instead.")))
+(when (display-graphic-p)
+  (global-set-key
+   (kbd "C-x o")
+   (lambda () (interactive) (message "deprecated, use M-o or s-o instead.")))
+  (global-set-key
+   (kbd "C-x b")
+   (lambda () (interactive) (message "deprecated, use s-b instead.")))
+  (global-set-key
+   (kbd "C-x k")
+   (lambda () (interactive) (message "deprecated, use s-k instead."))))
 (global-set-key (kbd "C-z") nil)
 (global-set-key (kbd "C-x C-z") nil)
 
